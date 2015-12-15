@@ -73,7 +73,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $this->render('_search') ?>
             <?php if(!empty($_GET)){ ?>
             <p align="right">
-            <?= Html::a('Export PDF', ['export-pdf','unit'=>$_GET['unit'],'unit_id'=>$_GET['unit_id'],'tgl_mulai'=>$_GET['tgl_mulai'],'tgl_kembali'=>$_GET['tgl_kembali']], ['class'=>'btn btn-success']); ?>  
+             <a href="<?= Yii::$app->urlManagerr->createUrl(['simpel-rekap/export-pdf','unit'=>$_GET['unit'],'unit_id'=>$_GET['unit_id'],'tgl_mulai'=>$_GET['tgl_mulai'],'tgl_kembali'=>$_GET['tgl_kembali']]) ?>" >
+            <img src="<?= Url::to(['/images/printer.png']) ?>" width="60px"/>
+            </a>
             </p>
            <?php } ?>
             

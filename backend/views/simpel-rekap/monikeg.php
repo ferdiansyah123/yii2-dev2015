@@ -12,7 +12,7 @@ use yii\widgets\LinkPager;
 /* @var $searchModel backend\models\SimpelRekapSeacrh */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Simpel Kegs');
+$this->title = Yii::t('app', 'Monitoring Perjadin');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style type="text/css">

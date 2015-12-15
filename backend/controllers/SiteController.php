@@ -111,9 +111,9 @@ class SiteController extends Controller {
 
     public function actionLogin() {
         $this->layout = 'login';
-        if (!\Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+        // if (!\Yii::$app->user->isGuest) {
+        //     return $this->goHome();
+        // }
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->redirect(['/mimin/user/vprofile', 'id' => Yii::$app->user->id]);
@@ -143,9 +143,9 @@ class SiteController extends Controller {
                     $model = User::find()
                             ->where(['email' => $_POST['User']['email']])
                             ->one();
-                    $str = date('ymdhis') . 'abcefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890' . date('d');
+                    $str = date('ymdhis').'abcefg';
                     $potong = str_shuffle($str);
-                    $random = substr($potong, 3, 12);
+                    $random = $potong;
                     $model->setPassword($random);
                     $content = '
                     <center><img src="http://i.imgur.com/p5lHZXS.png"/></center><br/>

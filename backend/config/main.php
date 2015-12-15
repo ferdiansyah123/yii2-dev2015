@@ -23,6 +23,7 @@ return [
         'site/login/',
         'site/logout',
         'site/index/',
+        'site/reset/',
         'simpel-keg/spd/*',
         'simpel-personil/*',
         'simpel-personil/qrcod/*',

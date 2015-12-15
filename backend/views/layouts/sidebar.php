@@ -43,7 +43,12 @@ use yii\widgets\Menu;
                                 ['label' => 'Proses', 'url' => ['/simpel-keg/index/']],
                                 ['label' => 'Rekapitulasi', 'url' => ['/simpel-rekap/index/']],
                                 ['label' => 'Referensi', 'url' => ['/tabel-sbu/index/']],
+
                                 ['label' => 'Laporan', 'url' => ['/simpel-laporan/index/']],
+                                ['label' => 'Laporan', 'url' => ['/simpel-laporan/pim/']],
+                                ['label' => 'Laporan', 'url' => ['/simpel-laporan/pimd/']],
+                                ['label' => 'Laporan', 'url' => ['/simpel-laporan/user/']],
+
                                 ['label' => 'Pengaturan', 'url' => ['/mimin/user/index/'], 'items' => [
                                     ['label' => 'Pagu Mak', 'url' => ['/simpel-pagu/index']],
                                     ['label' => 'User', 'url' => ['/mimin/user/']],

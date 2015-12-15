@@ -29,12 +29,6 @@ class SimpelRekapController extends Controller {
         ];
     }
 
-    /**
-     * Lists all SimpelKeg models.
-     * @return mixed
-     */
-
-
         public function actionExportPdf($unit_id,$tgl_mulai,$tgl_kembali)
         {    
             $find_query = "SELECT a.* FROM simpel_personil as a LEFT JOIN simpel_keg b ON a.id_kegiatan = b.id_kegiatan LEFT JOIN pegawai.daf_unit c ON b.unit_id = c.unit_id WHERE b.status=4 and b.tgl_mulai between '".$tgl_mulai."' and '".$tgl_kembali."' and c.unit_parent_id='".$unit_id."' ";
@@ -44,15 +38,15 @@ class SimpelRekapController extends Controller {
             $models = $query->offset($pages->offset, $pages->pageSize = 10)
                     ->limit($pages->limit)
                     ->all();
-         $html = $this->renderAjax('/cetak/rekap_keg',['models'=>$models,'pages'=>$pages]);
-        $mpdf=new mPDF('c','A4','','' , 0 , 0 , 0 , 0 , 0 , 0);  
-        $mpdf->SetDisplayMode('fullpage');
-        $mpdf->AddPage('L', '', '', '', '', 15, 15, 5, 1, 5, 5);
-        $mpdf->list_indent_first_level = 0;  // 1 or 0 - whether to indent the first level of a list
-        $mpdf->WriteHTML($html);
-        $mpdf->Output('cetak.pdf', D);
-        exit;
-    }
+            $html = $this->renderAjax('/cetak/rekap_keg',['models'=>$models,'pages'=>$pages]);
+            $mpdf=new mPDF('c','A4','','' , 0 , 0 , 0 , 0 , 0 , 0);  
+            $mpdf->SetDisplayMode('fullpage');
+            $mpdf->AddPage('L', '', '', '', '', 15, 15, 5, 1, 5, 5);
+            $mpdf->list_indent_first_level = 0;  // 1 or 0 - whether to indent the first level of a list
+            $mpdf->WriteHTML($html);
+            $mpdf->Output('cetak.pdf', D);
+            exit;
+        }
 
       public function actionExport($unit_id,$tgl_mulai,$tgl_kembali)
         {    
@@ -72,6 +66,7 @@ class SimpelRekapController extends Controller {
         $mpdf->Output('cetak.pdf', D);
         exit;
     }
+
     public function actionLists($id) {
         $countKokab = \common\models\DaftarUnit::find()
                 ->where(['unit_parent_id' => $id])
@@ -90,6 +85,8 @@ class SimpelRekapController extends Controller {
             echo "<option>-</option>";
         }
     }
+
+    
 
     public function actionIndex() {
         if (!empty($_GET['unit_id'])) {
@@ -129,8 +126,6 @@ class SimpelRekapController extends Controller {
             $models = $query->offset($pages->offset, $pages->pageSize = 10)
                     ->limit($pages->limit)
                     ->all();
-
-
         } else {
             $unit = SimpelPersonil::find()->joinWith('keg')->where('simpel_keg.status = 4');
             $count = count($unit->all());
@@ -139,18 +134,14 @@ class SimpelRekapController extends Controller {
                     ->limit($pages->limit)
                     ->all();
         }
-
         return $this->render('keg', [
                     'pages' => $pages,
                     'models' => $models,
         ]);
     }
-
     public function actionMonikeg() {
 
         // get your HTML raw content without any layouts or scripts
-
-
         if (!empty($_GET['unit_id'])) {
             $find_query = "SELECT c.* FROM simpel_keg as a
                             LEFT JOIN pegawai.daf_unit b ON  a.unit_id = b.unit_id
@@ -170,85 +161,11 @@ class SimpelRekapController extends Controller {
                     ->limit($pages->limit)
                     ->all();
         }
-
-
         return $this->render('monikeg', [
                     'pages' => $pages,
                     'models' => $models,
         ]);
     }
-
-    /**
-     * Displays a single SimpelKeg model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id) {
-        return $this->render('view', [
-                    'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new SimpelKeg model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate() {
-        $model = new SimpelKeg();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_kegiatan]);
-        } else {
-            return $this->render('create', [
-                        'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Updates an existing SimpelKeg model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id) {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_kegiatan]);
-        } else {
-            return $this->render('update', [
-                        'model' => $model,
-            ]);
-        }
-    }
-
-    /**
-     * Deletes an existing SimpelKeg model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id) {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the SimpelKeg model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return SimpelKeg the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id) {
-        if (($model = SimpelKeg::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
+  
+   
 }
