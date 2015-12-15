@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <ul class="nav nav-tabs ">
                 <li  >
                     <a href="<?= Url::to(['simpel-rekap/index']) ?>" >
-                        Rekaoitulasi Perjadin</a>
+                        Rekapitulasi Perjadin</a>
                 </li>
                 <li  class="active">
                     <a href="<?= Url::to(['simpel-rekap/keg']) ?>" >
@@ -71,9 +71,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h3 align="center" class="panel-title"><?= $this->title ?></h3>
             </div>
             <?= $this->render('_search') ?>
+            <?php if(!empty($_GET)){ ?>
             <p align="right">
-            <?= Html::a('Export PDF', ['export-pdf'], ['class'=>'btn btn-success']); ?>  
+            <?= Html::a('Export PDF', ['export-pdf','unit'=>$_GET['unit'],'unit_id'=>$_GET['unit_id'],'tgl_mulai'=>$_GET['tgl_mulai'],'tgl_kembali'=>$_GET['tgl_kembali']], ['class'=>'btn btn-success']); ?>  
             </p>
+           <?php } ?>
+            
         </div>
         <table width="1000"class="table table-responsive list table-bordered ">
 

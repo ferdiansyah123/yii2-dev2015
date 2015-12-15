@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <ul class="nav nav-tabs ">
                 <li  >
                     <a href="<?= Url::to(['simpel-rekap/index']) ?>" >
-                        Rekaoitulasi Perjadin</a>
+                        Rekapitulasi Perjadin</a>
                 </li>
                 <li  >
                     <a href="<?= Url::to(['simpel-rekap/keg']) ?>" >

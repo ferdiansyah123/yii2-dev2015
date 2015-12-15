@@ -1,16 +1,11 @@
-<?php
-use yii\helpers\Html;
-use yii\grid\GridView;
-use yii\helpers\Url;
-use hscstudio\mimin\components\Mimin;
-use yii\widgets\LinkPager;
-/* @var $this yii\web\View */
-/* @var $searchModel backend\models\SimpelRekapSeacrh */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-$this->title = Yii::t('app', 'Daftar Rekapitulasi Perjadin');
-$this->params['breadcrumbs'][] = $this->title;
 
-?>
+<?php
+
+use yii\helpers\Html;
+use yii\widgets\DetailView;
+use yii\helpers\Url;
+use \common\components\MyHelper;
+?>   
 <style type="text/css">
     th{
         text-align: center;
@@ -41,36 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
         background-color: #d6eaff;
     }
 </style>
-<div class="simpel-keg-index">
-    <div class="block">
-        <div class="block-title">
-            <ul class="nav nav-tabs ">
-                <li  class="active" >
-                    <a href="<?= Url::to(['simpel-rekap/index']) ?>" >
-                    Rekapitulasi Perjadin</a>
-                </li>
-                <li>
-                    <a href="<?= Url::to(['simpel-rekap/keg']) ?>" >
-                    Rekapitulasi Kegiatan</a>
-                </li>
-                <li>
-                    <a href="<?= Url::to(['simpel-rekap/monikeg']) ?>" >
-                    Monitoring Kegiatan </a>
-                </li>
-
-            </div>
-            <?= $this->render('_search') ?>
-            <?php if(!empty($_GET)){ ?>
-            <p align="right">
-            <?= Html::a('Export', ['export','unit'=>$_GET['unit'],'unit_id'=>$_GET['unit_id'],'tgl_mulai'=>$_GET['tgl_mulai'],'tgl_kembali'=>$_GET['tgl_kembali']], ['class'=>'btn btn-success']); ?>  
-            </p>
-           <?php } ?>
-            
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 align="center" class="panel-title"><?= $this->title ?></h3>
-                </div>
-                <table class="table table-responsive list table-bordered " width="100%">
+<h1 align="center">Daftar Rekapitulasi Perjadin</h1>
+<table class="table table-responsive list table-bordered " width="100%">
                
                     <tr>
                         
@@ -110,11 +77,3 @@ $this->params['breadcrumbs'][] = $this->title;
                     </tr>
                     <?php $no++;} ?>
                 </table>
-            </div>
-            <?php
-            echo LinkPager::widget([
-    'pagination' => $pages,
-]);
-?>
-        </div>
-    </div>
