@@ -13,7 +13,7 @@ class SimpelLaporanController extends \yii\web\Controller {
         return $this->render('max');
     }
     // Awal Pimpinan1
-    public function actionPim() {
+    public function actionPimpinan() {
         return $this->render('pimpinan1_real');
     }
     public function actionPimmak() {
@@ -23,19 +23,19 @@ class SimpelLaporanController extends \yii\web\Controller {
 
     // Awal Pimpinan12
     public function actionPimd() {
-        return $this->render('index');
+        return $this->render('pimpinan2_real');
     }
     public function actionPimdmak() {
-        return $this->render('max');
+        return $this->render('pimpinan2_real_mak');
     }
     //Akhir Pimpinan2
 
     // Awal User
     public function actionUser() {
-        return $this->render('index');
+        return $this->render('user');
     }
     public function actionUsermak() {
-        return $this->render('max');
+        return $this->render('user_mak');
     }
     //Akhir User
 }

@@ -45,7 +45,7 @@ use yii\widgets\Menu;
                                 ['label' => 'Referensi', 'url' => ['/tabel-sbu/index/']],
 
                                 ['label' => 'Laporan', 'url' => ['/simpel-laporan/index/']],
-                                ['label' => 'Laporan', 'url' => ['/simpel-laporan/pim/']],
+                                ['label' => 'Laporan', 'url' => ['/simpel-laporan/pimpinan/']],
                                 ['label' => 'Laporan', 'url' => ['/simpel-laporan/pimd/']],
                                 ['label' => 'Laporan', 'url' => ['/simpel-laporan/user/']],
 

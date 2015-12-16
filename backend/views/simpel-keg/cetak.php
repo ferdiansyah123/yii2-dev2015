@@ -98,7 +98,7 @@ $this->registerJS($js);
                 'attribute' => 'Max',
                 'headerOptions' => ['width' => '200'],
                 'value' => function($data) {
-            return $data->mak;
+            return $data['mak'];
                 }
             ],
                [

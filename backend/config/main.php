@@ -27,6 +27,7 @@ return [
         'simpel-keg/spd/*',
         'simpel-personil/*',
         'simpel-personil/qrcod/*',
+        'simpel-rekap/*',
         //'debug/*',
         '*',
         //'mimin/*', // only in dev mode
