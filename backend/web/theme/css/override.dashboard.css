@@ -10,8 +10,12 @@
     background-color: white;
 
 }
-.nav .nav-pills .treeview .nav-stacked{
-	 background-color: yellow;
+
+.red .active a:hover {
+    background-color: #47B2BA;
+}
+.red a:hover {
+    background-color: #47B2BA;
 }
  .box-shadow{
  	-webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);

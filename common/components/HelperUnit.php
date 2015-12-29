@@ -324,7 +324,7 @@ class HelperUnit extends Component {
         $count = Yii::$app->db->createCommand($sql)->queryScalar();
         return $count;
     }
-
+    //pagu realisasi serasi
       public function PaguSerasii($id){
         $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
                 INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id

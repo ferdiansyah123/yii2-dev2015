@@ -55,7 +55,7 @@ use hscstudio\mimin\models\AuthAssignment;
                                 $menuItems[] = ['label' => 'Reporting', 'items' => $items];
                             }
                             echo SideNav::widget([
-                                'options' => ['class' => 'sidebar-nav'],
+                                'options' => ['class' => 'sidebar-nav red'],
                                 'encodeLabels' => false, // set this to nav-tab to get tab-styled navigation
                                 'items' => $items,
                             ]);
