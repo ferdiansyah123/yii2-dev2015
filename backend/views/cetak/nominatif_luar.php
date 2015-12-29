@@ -53,13 +53,13 @@ use \common\components\MyHelper;
         <th align="center" width="100" rowspan="3" >Tanggal <br/>Berangkat <br/> /kembali</th>
         <th rowspan="3" width="10">Lama Hari</th>
         <th align="center" colspan="5">Biaya</th>
-        <th align="center" rowspan="3" colspan="1">Jumlah Biaya</th>
     </tr>
     <tr>
         <th align="center" colspan="3" width="100">Transport </th>
 
 
         <th align="center" width="100" colspan="2"  rowspan="2">Lumpsum </th>
+        <th align="center" width="100" colspan="2"  rowspan="2">Jumlah Biaya </th>
     </tr>
     <tr>
 
@@ -240,7 +240,7 @@ use \common\components\MyHelper;
          
         </td>
         <td align="center">
-        <?php $total = Yii::$app->db->createCommand("SELECT sum(jml) from simpel_rincian_biaya where  id_kegiatan='".$model->id_kegiatan."' and kat_biaya_id in (8) and bukti_kwitansi in(1,2)" )->queryScalar();
+        <?php $total = Yii::$app->db->createCommand("SELECT sum(jml) from simpel_rincian_biaya where  id_kegiatan='".$model->id_kegiatan."' and kat_biaya_id in (14,15,16) and bukti_kwitansi in(1,2)" )->queryScalar();
                     echo number_format($total, 0 ,',','.');
               ?> 
         </td>

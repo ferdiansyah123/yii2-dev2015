@@ -161,7 +161,7 @@ foreach ($model2 as $mode) {
         <tbody>
             <tr>                
                 <td height="30" width='10'>1</td>
-                <td colspan="3" height="30" width="260"> <u>F Pembuat Komitmen</u><br/><i>Authorizing Officer</i></td>
+                <td colspan="3" height="30" width="260"> <u>Pembuat Komitmen</u><br/><i>Authorizing Officer</i></td>
     <td valign="top" height="30" colspan="3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $model->ppk->nama ?></td>
 
     </tr>

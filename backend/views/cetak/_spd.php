@@ -335,7 +335,7 @@ textarea, input[type=text], input[type=password]
                     </tr>
                     <tr>
                         <td>c.</td>
-                        <td><b class="bold"><?= MyHelper::Formattgl($mode->tgl_kembali) ?></b></td>
+                        <td><b class="bold"><?= MyHelper::Formattgl($mode->tgl_kembali) ?></b></td>ali
                     </tr>
                 </table>
             </td>
@@ -452,7 +452,7 @@ textarea, input[type=text], input[type=password]
             <td width="4%" class="kiri" align="right" valign="top">&nbsp;</td>
             <td width="25%" style="padding-left:600px;"class="">Pada Tanggal</td>
             <td width="3%" class="" valign="top" width="5%"><center>:</center></td>
-            <td width="10%" class="kanan" valign="top" style="padding-left:-27px;"><b class="bold"><?= MyHelper::Formattgl($model->tgl_mulai) ?></b></td>
+            <td width="10%" class="kanan" valign="top" style="padding-left:-27px;"><b class="bold"><?= MyHelper::Formattgl($mode->tgl_berangkat) ?></b></td>
         </tr>
         <tr>
             <td width="4%" class="kiri">&nbsp;</td>
@@ -514,7 +514,7 @@ textarea, input[type=text], input[type=password]
             <td align="right" class="kiri">&nbsp;</td>
             <td width="5%">Pada Tanggal</td>
             <td class="" ><center>:</center></td>
-            <td class="" style="padding-left:-22px;"><b class="bold"><?= MyHelper::Formattgl($model->tgl_mulai) ?></b></td>
+            <td class="" style="padding-left:-22px;"><b class="bold"><?= MyHelper::Formattgl($mode->tgl_berangkat) ?></b></td>
             <td class="kiri" align="right">&nbsp;</td>
             <td class="">Ke</td>
             <td class="" width="5%" valign="top"><center>:</center></td>
@@ -526,7 +526,7 @@ textarea, input[type=text], input[type=password]
             <td class="kiri" align="right">&nbsp;</td>
             <td class="">Pada Tanggal</td>
             <td class="" width="5%" valign="top" width="5%"><center>:</center></td>
-            <td class="kanan" style="padding-left:-22px;"><b class="bold"><?= MyHelper::Formattgl($model->tgl_selesai) ?></b></td>
+            <td class="kanan" style="padding-left:-22px;"><b class="bold"><?= MyHelper::Formattgl($mode->tgl_kembali) ?></b></td>
         </tr>
         <tr>
             <td align="right" class="kiri">&nbsp;</td>
@@ -709,7 +709,7 @@ textarea, input[type=text], input[type=password]
             <td align="right" class="kiri">&nbsp;</td>
             <td class="">Pada Tanggal</td>
             <td class="" width="5%"><center>:</center></td>
-            <td class=""><b class="bold" style="padding-left:-107px;"><?= MyHelper::Formattgl($model->tgl_mulai) ?></b></td>
+            <td class=""><b class="bold" style="padding-left:-107px;"><?= MyHelper::Formattgl($mode->tgl_berangkat) ?></b></td>
         </tr>
         <tr>
             <td align="right" class="kiri">&nbsp;</td>
