@@ -20,7 +20,20 @@ use common\components\MyHelper;
         <tr>
             <td>Nama</td>
             <td>:</td>
-            <td><?= $model->pegawai->nama_cetak ?></td>
+            <td>
+             <?php 
+            if ($mode['pegawai_id']>0){ ?>
+                   <?= \common\components\HelperUnit::Pegawais($model['pegawai_id'])->nama_cetak ?>
+                  
+            </b>
+                  <?php  }else{ 
+
+                    echo $model['nama'];
+                    
+                }
+                ?>
+
+            </td>
 
         </tr>
         <tr>

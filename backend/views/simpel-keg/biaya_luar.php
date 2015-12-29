@@ -54,7 +54,7 @@ $('#satuan4').on('keyup', function(){
 
   $('#jml4').val(hasil);
   
-  $('#uraian4').val("Lumpsum dari tanggal "+$('#dtg').html()+" sd "+$('#kmbl').html()+" @ Rp. "+$('#satuan4').val()+" x "+$('#volume4').val()+" = Rp. "+hasil+"");
+  $('#uraian4').val("Lumpsum dari tanggal "+$('#dtg').html()+" sd "+$('#kmbl').html()+" @ Dengan Rincian Rp. "+$('#satuan4').val()+" x  "+$('#pagu4').val()+" x "+$('#persen4').val()+" x  "+$('#volume4').val()+" = Rp. "+hasil+"");
 
 
 });
@@ -70,10 +70,9 @@ $('#satuan5').on('keyup', function(){
   var hasil =  parseFloat(dat1*dat2*dat3*dat4);
 
   $('#jml5').val(hasil);
-  $('#uraian5').val("Lumpsum 30% Tanggal ");
+  $('#uraian5').val("Lumpsum 30 % dari tanggal "+$('#dtg').html()+" sd "+$('#kmbl').html()+" @ Dengan Rincian Rp. "+$('#satuan5').val()+" x  "+$('#pagu5').val()+" x "+$('#persen5').val()+" x  "+$('#volume5').val()+" = Rp. "+hasil+"");
    
-  $('#uraian5').val("Lumpsum 30% dari tanggal "+$('#dtg').html()+" sd "+$('#kmbl').html()+" @ Rp. "+$('#satuan5').val()+" x "+$('#volume5').val()+" = Rp. "+hasil+"");
-
+ 
 });
 
 //fungsi untuk lumpsum 40%
@@ -87,7 +86,7 @@ $('#satuan6').on('keyup', function(){
   var hasil =  parseFloat(dat1*dat2*dat3*dat4);
 
   $('#jml6').val(hasil);
-  $('#uraian6').val("Lumpsum 40% dari tanggal "+$('#dtg').html()+" sd "+$('#kmbl').html()+" @ Rp. "+$('#satuan6').val()+" x "+$('#volume6').val()+" = Rp. "+hasil+"");
+  $('#uraian6').val("Lumpsum 40 % dari tanggal "+$('#dtg').html()+" sd "+$('#kmbl').html()+" @ Dengan Rincian Rp. "+$('#satuan6').val()+" x  "+$('#pagu6').val()+" x "+$('#persen6').val()+" x  "+$('#volume6').val()+" = Rp. "+hasil+"");
 
 });
 

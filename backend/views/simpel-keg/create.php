@@ -85,10 +85,7 @@ DetailView::widget([
        // 'nomi_id',
         'mak',
         'nama_keg',
-          [                      // the owner name of the model
-           'label' => 'Kwitansi',
-           'value' =>$model->no_reg,
-          ],
+       
         [                      // the owner name of the model
            'label' => 'Tujuan Keberangkatan',
            'value' =>\backend\models\SimpelKeg::Tujuan($model->negara),

@@ -120,16 +120,6 @@ class SimpelPersonilController extends Controller {
     public function actionQrcode($id) {
         $model = $this->findModel($id); //untuk membaca id daftar kegiatan
         $model2 = SimpelPersonil::find()->where('id_kegiatan=' . $id)->all();
-        // $vcard = "                                              Pemberitahuan  \r\n" .
-        //         " Menyatakan Surat Perjalanan Dinas (SPD) sebagai berikut:\r\n" .
-        //         "                   \n" .
-        //         " Nama           : " . $nama . "\r\n" .
-        //         " Kota Asal     : Jakarta\r\n" .
-        //         " Kota Tujuan  : Steven Valley\r\n" .
-        //         " Selama        : 3 Hari\r\n" .
-        //         " Tanggal       : 10-12 juni 2015\r\n" .
-        //         "                    \n" .
-        //         "Dengan ini dinyatakan ASLI, Sesuai dari subbag. Perjalanan Dinas - Biro Umum";
         $uri = Yii::$app->urlManagerr->createUrl(['simpel-personil/vqrcode', 'id' => $id]);
         return QRcode::png($uri);
     }
@@ -137,17 +127,6 @@ class SimpelPersonilController extends Controller {
     public function actionQrcod($id) {
         $model = $this->findModel($id); //untuk membaca id daftar kegiatan
         $model2 = SimpelPersonil::find()->where('id_kegiatan=' . $id)->all();
-        // $vcard = "                                              Pemberitahuan  \r\n" .
-        //         " Menyatakan Surat Perjalanan Dinas (SPD) sebagai berikut:\r\n" .
-        //         "                   \n" .
-        //         " Nama           : " . $nama . "\r\n" .
-        //         " Kota Asal     : Jakarta\r\n" .
-        //         " Kota Tujuan  : Steven Valley\r\n" .
-        //         " Selama        : 3 Hari\r\n" .
-        //         " Tanggal       : 10-12 juni 2015\r\n" .
-        //         "                    \n" .
-        //         "Dengan ini dinyatakan ASLI, Sesuai dari subbag. Perjalanan Dinas - Biro Umum";
-       
         $uri = Yii::$app->urlManagerr->createUrl(['simpel-personil/vqrcod', 'id' => $id]);
         return QRcode::png($uri);
     }
@@ -158,15 +137,43 @@ class SimpelPersonilController extends Controller {
         if ($_POST) {
             //print_r($_POST);
             //die();
-            $model->pegawai_id = $_POST['SimpelPersonil']['pegawai_id'];
-            $model->tingkat_id = $_POST['SimpelPersonil']['tingkat_id'];
-            $model->tgl_penugasan = $_POST['SimpelPersonil']['tgl_penugasan'];
-            $model->tgl_berangkat = $_POST['SimpelPersonil']['tgl_berangkat'];
-            $model->tgl_kembali = $_POST['SimpelPersonil']['tgl_kembali'];
+                $model->id_kegiatan = $model2->id_kegiatan;
+             if(!empty($_POST['SimpelPersonil']['pegawai_id'])){
+                $model->pegawai_id = $_POST['SimpelPersonil']['pegawai_id'];
+                
+                $model->pejabat = $_POST['SimpelPersonil']['pejabat'];
+                $model->tingkat_id = $_POST['SimpelPersonil']['tingkat_id'];
+                $model->nama = 0;
+                $model->nip = 0;
+                $model->gol = 0;
+                $model->jab = 0;
+                $model->instansi = 0;
+                $model->pnama = 0;
+                $model->pnip = 0;
+                $model->pjab = 0;
+            }else{
+                $model->pegawai_id = 0;
+               
+                $model->pejabat = 0;
+                $model->tingkat_id = 0;
+                $model->nama = $_POST['SimpelPersonil']['nama'];
+                $model->nip = $_POST['SimpelPersonil']['nip'];
+                $model->gol = $_POST['SimpelPersonil']['gol'];
+                $model->jab = $_POST['SimpelPersonil']['jab'];
+                $model->instansi = $_POST['SimpelPersonil']['instansi'];
+            
+                $model->pnama = $_POST['SimpelPersonil']['nama'];
+                $model->pnip = $_POST['SimpelPersonil']['pnip'];
+                $model->pjab = $_POST['SimpelPersonil']['pjab'];
+
+            }
             $model->no_sp = $_POST['SimpelPersonil']['no_sp'];
-            $model->pejabat = $_POST['SimpelPersonil']['pejabat'];
+            $model->tgl_penugasan = $_POST['SimpelPersonil']['tgl_penugasan'];
+            $model->tgl_berangkat = $_POST['SimpelKeg']['tgl_mulai'];
+            $model->tgl_kembali = $_POST['SimpelKeg']['tgl_selesai'];
             $model->uang_makan = $_POST['SimpelPersonil']['uang_makan'];
             $model->angkutan = $_POST['SimpelPersonil']['angkutan'];
+            
             if ($model->save()) {
 
                 $data = count($_POST['rows']);
@@ -209,15 +216,43 @@ class SimpelPersonilController extends Controller {
         if ($_POST) {
             // print_r($_POST);
             // die();
-            $model->pegawai_id = $_POST['SimpelPersonil']['pegawai_id'];
-            $model->tingkat_id = $_POST['SimpelPersonil']['tingkat_id'];
-            $model->tgl_penugasan = $_POST['SimpelPersonil']['tgl_penugasan'];
-            $model->tgl_berangkat = $_POST['SimpelPersonil']['tgl_berangkat'];
-            $model->tgl_kembali = $_POST['SimpelPersonil']['tgl_kembali'];
+                $model->id_kegiatan = $model2->id_kegiatan;
+             if(!empty($_POST['SimpelPersonil']['pegawai_id'])){
+                $model->pegawai_id = $_POST['SimpelPersonil']['pegawai_id'];
+                
+                $model->pejabat = $_POST['SimpelPersonil']['pejabat'];
+                $model->tingkat_id = $_POST['SimpelPersonil']['tingkat_id'];
+                $model->nama = 0;
+                $model->nip = 0;
+                $model->gol = 0;
+                $model->jab = 0;
+                $model->instansi = 0;
+                $model->pnama = 0;
+                $model->pnip = 0;
+                $model->pjab = 0;
+            }else{
+                $model->pegawai_id = 0;
+               
+                $model->pejabat = 0;
+                $model->tingkat_id = 0;
+                $model->nama = $_POST['SimpelPersonil']['nama'];
+                $model->nip = $_POST['SimpelPersonil']['nip'];
+                $model->gol = $_POST['SimpelPersonil']['gol'];
+                $model->jab = $_POST['SimpelPersonil']['jab'];
+                $model->instansi = $_POST['SimpelPersonil']['instansi'];
+            
+                $model->pnama = $_POST['SimpelPersonil']['nama'];
+                $model->pnip = $_POST['SimpelPersonil']['pnip'];
+                $model->pjab = $_POST['SimpelPersonil']['pjab'];
+
+            }
             $model->no_sp = $_POST['SimpelPersonil']['no_sp'];
-            $model->pejabat = $_POST['SimpelPersonil']['pejabat'];
+            $model->tgl_penugasan = $_POST['SimpelPersonil']['tgl_penugasan'];
+            $model->tgl_berangkat = $_POST['SimpelKeg']['tgl_mulai'];
+            $model->tgl_kembali = $_POST['SimpelKeg']['tgl_selesai'];
             $model->uang_makan = $_POST['SimpelPersonil']['uang_makan'];
             $model->angkutan = $_POST['SimpelPersonil']['angkutan'];
+            
             if ($model->save()) {
 
                 $data = count($_POST['rows']);
@@ -229,6 +264,8 @@ class SimpelPersonilController extends Controller {
                     $model3->bukti_kwitansi = $_POST['bukti_kwitansi' . $i];
                     $model3->volume = $_POST['volume' . $i];
                     $model3->jml = $_POST['jml' . $i];
+                    $model3->pagu = $_POST['pagu' . $i];
+                    $model3->persen = $_POST['persen' . $i];
                     $model3->uraian_rincian = $_POST['uraian_rincian' . $i];
                     $model3->save();
                 }

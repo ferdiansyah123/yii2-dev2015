@@ -106,8 +106,8 @@ foreach ($model2 as $data) {
          <tr>      
         <td width="170"> Surat Perintah dari  </td>
           
-            <td width="20"> :</td>
-            <td width="460" style="font-weight: bold;"> <?= $data->perintah_dari ?></td>
+            <td width="20"> </td>
+            <td width="460" style="font-weight: bold;"> </td>
 
         </tr>
 
@@ -128,17 +128,17 @@ foreach ($model2 as $data) {
         </tr>
        
        
-               <tr>      
+               <tr> 
+        <?php
+        if ($data->pegawai_id>0){ ?>
+
+     
         <td width="170" > Nama  </td>
-          
             <td width="20"> :</td>
             <td width="260" style="font-weight: bold;"><?= $data->pegawai->nama_cetak ?> </td>
-
         </tr>
-       
-               <tr>      
+        <tr>      
         <td width="170"> Golongan/Pangkat/Jabatan : </td>
-          
             <td width="20"> :</td>
             <td width="260" style="font-weight: bold;">
              <?php
@@ -155,8 +155,25 @@ foreach ($model2 as $data) {
              </td>
 
         </tr>
-       
-               <tr>      
+        <?php  }else{ ?>
+         <td width="170" > Nama  </td>
+            <td width="20"> :</td>
+            <td width="260" style="font-weight: bold;"><?= $data->nama ?> </td>
+        </tr>
+        <tr>      
+        <td width="170"> Golongan/Pangkat/Jabatan : </td>
+            <td width="20"> :</td>
+            <td width="260" style="font-weight: bold;">
+             <?php
+                    echo $data->gol;
+                    echo "&nbsp;&nbsp;&nbsp;&nbsp;/";
+                    echo $data->jab;
+                ?>
+             </td>
+
+        </tr>
+        <?php } ?>    
+        <tr>      
         <td  width="170"> Tempat Kedudukan  </td>
           
             <td width="20"> :</td>
@@ -180,9 +197,12 @@ Yang bepergian,</td>
     <tr>
        
         <td height="20" width="400"></td>
-
+   <?php 
+        if($data->pegawai_id>0){ ?>
         <td style="padding-top:10px;font-weight: bold;" align="center"width="400"><br/><br/><br/><br/><b><u>(<?= $data->pegawai->nama_cetak ?>)</u><br/>NIP : <?= $data->pegawai->nip ?> </td>
-
+        <?php }else{ ?>
+        <td style="padding-top:10px;font-weight: bold;" align="center"width="400"><br/><br/><br/><br/><b><u>(<?= $data->nama ?>)</u><br/>NIP : <?= $data->nip ?> </td>
+        <?php } ?>
     </tr>
    
 </table>
@@ -264,8 +284,8 @@ Yang bepergian,</td>
          <tr>      
         <td width="170"> Surat Perintah dari  </td>
           
-            <td width="20"> :</td>
-            <td width="460" style="font-weight: bold;"><?= $data->perintah_dari ?></td>
+            <td width="20"> </td>
+            <td width="460" style="font-weight: bold;"></td>
 
         </tr>
 
@@ -286,20 +306,20 @@ Yang bepergian,</td>
 
         </tr>
        
-               <tr>      
+                    <tr> 
+        <?php
+        if ($data->pegawai_id>0){ ?>
+
+     
         <td width="170" > Nama  </td>
-          
             <td width="20"> :</td>
             <td width="260" style="font-weight: bold;"><?= $data->pegawai->nama_cetak ?> </td>
-
         </tr>
-       
-               <tr>      
+        <tr>      
         <td width="170"> Golongan/Pangkat/Jabatan : </td>
-          
             <td width="20"> :</td>
             <td width="260" style="font-weight: bold;">
-                 <?php
+             <?php
                     $jab = MyHelper::Jab($data->pegawai->struk_id);
                     $gol = MyHelper::Gole($data->pegawai->gol_id);
                     $pangkat = MyHelper::Pangkat($data->pegawai->gol_id);
@@ -310,11 +330,27 @@ Yang bepergian,</td>
                     if(!$jab) {$inst="-";}else{$inst='BAPETEN';}
                     if($jab=="Staf") {echo $jabatan1." ";} elseif($jabatan2){echo $jabatan2." ";} else {echo "- ";} 
                 ?>
-
-
              </td>
 
         </tr>
+        <?php  }else{ ?>
+         <td width="170" > Nama  </td>
+            <td width="20"> :</td>
+            <td width="260" style="font-weight: bold;"><?= $data->nama ?> </td>
+        </tr>
+        <tr>      
+        <td width="170"> Golongan/Pangkat/Jabatan : </td>
+            <td width="20"> :</td>
+            <td width="260" style="font-weight: bold;">
+             <?php
+                    echo $data->gol;
+                    echo "&nbsp;&nbsp;&nbsp;&nbsp;/";
+                    echo $data->jab;
+                ?>
+             </td>
+
+        </tr>
+        <?php } ?>    
        
                <tr>      
         <td  width="170"> Tempat Kedudukan  </td>
@@ -339,9 +375,12 @@ Yang bepergian,</td>
     <tr>
        
         <td height="20" width="400"></td>
-
+        <?php 
+        if($data->pegawai_id>0){ ?>
         <td style="padding-top:10px;font-weight: bold;" align="center"width="400"><br/><br/><br/><br/><b><u>(<?= $data->pegawai->nama_cetak ?>)</u><br/>NIP : <?= $data->pegawai->nip ?> </td>
-
+        <?php }else{ ?>
+        <td style="padding-top:10px;font-weight: bold;" align="center"width="400"><br/><br/><br/><br/><b><u>(<?= $data->nama ?>)</u><br/>NIP : <?= $data->nip ?> </td>
+        <?php } ?>
     </tr>
    
 </table>

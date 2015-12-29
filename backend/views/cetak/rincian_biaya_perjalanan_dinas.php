@@ -94,56 +94,10 @@ foreach ($model2 as $data) {
                         <?= $key->label ?> : 
                         </p>
                           <?php 
-                    switch ($key->kat_biaya_id) {
-                           case '1':
-                             $rinc =  \backend\models\SimpelRincianBiaya::find()->where('personil_id='.$data->id_personil.' and bukti_kwitansi=1 and kat_biaya_id in (2,3) ')->all();
-                             foreach ($rinc as $ke){
-                                    echo $ke->label; 
-                                    echo "<br/>";                       
-                                    echo "<br/>";                       
-                                }
-                             break;
-                        case '4':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                         case '5':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                             case '6':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                             case '7':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                             case '8':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                         case '9':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                         case '10':
-                            echo $key->uraian_rincian;                            break;
-                            break;
+                 
+                                    echo $key->uraian_rincian;
+                               
                        
-                          case '11':
-                            echo $key->uraian_rincian;
-                            break;
-                        case '12':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                            case '13':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                       case '14':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                        case '15':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                            case '16':
-                            echo $key->uraian_rincian;                            break;
-                            break;
-                    }
                     ?>
                     <br/>
                     &nbsp;&nbsp;
@@ -153,23 +107,18 @@ foreach ($model2 as $data) {
                             Rp.
                         
                          <?php 
-
-                    switch ($key->kat_biaya_id) {
-                          case '1':
-                          echo '<u>'.number_format($key->jml, 0, ",", ".").'</u>';
-                             $rinc =  \backend\models\SimpelRincianBiaya::find()->where('personil_id='.$data->id_personil.' and bukti_kwitansi=1 and kat_biaya_id in (2,3) ')->all();
-                             foreach ($rinc as $ke){
-                                     echo "<br/>";       
-                                    echo 'Rp. '.number_format($ke->jml, 0, ",", ".");
-                                    echo "<br/>";                       
-                 
-                                }
-                             break;
-                          default:
-                            echo number_format($key->jml, 0, ",", ".");
-                            break;
-                      
-                    }
+                         switch ($key->kat_biaya_id) {
+                             case 1:
+                                 $count = Yii::$app->db->createCommand("SELECT sum(jml) FROM simpel_rincian_biaya where personil_id='".$data->id_personil."' and bukti_kwitansi=1 and kat_biaya_id in(1,2,3)" )->queryScalar();
+                                echo number_format($count, 0, ",", ".");
+                                 break;
+                             default:
+                                 echo number_format($key->jml, 0, ",", ".");
+                                 break;
+                         }
+                  
+                            
+                          
                     ?>
                     </p>
                     </td>
@@ -243,7 +192,16 @@ foreach ($model2 as $data) {
                     <u><?= $model->bpp->nama_cetak ?></u><br/>
                     NIP : <?= $model->bpp->nip ?>
                 </td>
-                <td style="padding-top:50;font-weight: bold;"><u><?= $data->pegawai->nama_cetak ?></u><br/>NIP : <?= $data->pegawai->nip ?></td>
+                <td style="padding-top:50;font-weight: bold;"><u>
+                <?php 
+                if($data->pegawai_id>0){ ?>
+                <?= $data->pegawai->nama_cetak ?></u><br/>NIP : <?= $data->pegawai->nip ?>
+                <?php }else{
+                    echo $data['nama'];
+                    echo "<br/>";
+                    echo $data['nip'];
+                    } ?>
+                </td>
             </tr>
 
 

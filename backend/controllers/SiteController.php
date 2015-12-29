@@ -10,7 +10,8 @@ use yii\filters\VerbFilter;
 use \common\models\User;
 use yii\helpers\Url;
 use yii\data\Pagination;
-
+use hscstudio\mimin\components\Mimin;
+use hscstudio\mimin\models\AuthAssignment;
 /**
  * Site controller
  */
@@ -29,7 +30,7 @@ class SiteController extends Controller {
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'reset', 'error', 'coba'],
+                        'actions' => ['login','kosong', 'reset', 'error', 'coba'],
                         'allow' => true,
                     ],
                     [
@@ -116,7 +117,26 @@ class SiteController extends Controller {
         // }
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->redirect(['/mimin/user/vprofile', 'id' => Yii::$app->user->id]);
+            $roles = AuthAssignment::find()->where('user_id='.Yii::$app->user->id)->one();
+            switch ($roles['item_name']) {
+                case 'Admin':
+                    return $this->redirect(['/simpel/index']);
+                    break;
+                case 'kepala':
+                    return $this->redirect(['/simpel/index']);
+                    break;
+                case 'pimpinan1':
+                    return $this->redirect(['/simpel/pimpinan1']);
+                    break;
+                case 'pimpinan2':
+                    return $this->redirect(['/simpel/pimpinan2']);
+                    break;
+                case 'user':
+                    return $this->redirect(['/simpel/user']);
+                    break;
+                
+            }
+             
         } else {
             return $this->render('log', [
                         'model' => $model,
@@ -171,6 +191,17 @@ class SiteController extends Controller {
         return $this->render('reset', [
                     'model' => $model
         ]);
+
+
     }
+
+     public function actionKosong($data){
+$this->layout = 'login';
+            return $this->render('kosong', [ 
+                'data'=>$data,
+                  
+        ]);
+
+        }
 
 }

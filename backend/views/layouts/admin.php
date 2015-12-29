@@ -63,22 +63,20 @@ AppAsset::register($this);
                     <ul class="nav navbar-nav-custom pull-right">
                         <li>
                             <br/>
+                            <br/>
                             <i class="fa fa-calendar fa-fw"></i> <?= MyHelper::GetDayName(date('l')).' '.MyHelper::Formattgl(date('Y-m-d')) ?> <i class="fa fa-clock-o fa-fw pull-right"></i>&nbsp;&nbsp;
                         </li>
                         <li>
                             <br/>
+                            <br/>
                             <div id="txt"></div>
                         </li>
 
-                        <li class="dropdown">
-                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
-                                <?= Html::img('@web/theme/img/User-Icon.png'); ?><i class="fa fa-angle-down"></i>
-                            </a>
-                            <ul class="dropdown-menu dropdown-custom dropdown-menu-right">
-
-                                <li class="divider"></li>
+                       
                                 <li>
-                                    <?= Html::a(Yii::t('app', ' <i class="fa fa-user fa-fw pull-right"></i> Profile'), ['/mimin/user/profile', 'id' => Yii::$app->user->id]) ?>
+                            <br/>
+                                
+                                    <?= Html::a(Yii::t('app', 'Profile'), ['/mimin/user/profile', 'id' => Yii::$app->user->id]) ?>
                                 </li>
                                 
 

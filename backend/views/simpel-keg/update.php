@@ -14,10 +14,22 @@ $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="simpel-keg-update">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <?= $this->render('_form', [
+<?php
+	switch ($model->negara) {
+		case 1: 
+		echo $this->render('_form', [
         'model' => $model,
-    ]) ?>
+    	]);
+			break;
+		
+		case 2:
+			echo $this->render('_form_luar', [
+        'model' => $model,
+    	]);
+			break;
+		
+	}
+	?>
+    
 
 </div>

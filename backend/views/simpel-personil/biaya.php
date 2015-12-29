@@ -10,7 +10,7 @@ $('#satuan1').on('keyup', function(){
   var hasil =  parseInt(dat1*dat2);
 
   $('#jml1').val(hasil);
-  $('#uraian_rincian1').val("Transport ");
+  $('#uraian_rincian1').val("Tiket "+$('#kdtg').html()+",  "+$('#kkmbl').html()+" "+$('#kprov').html());
 
 });
 

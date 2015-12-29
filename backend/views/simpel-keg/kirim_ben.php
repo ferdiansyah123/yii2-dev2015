@@ -61,7 +61,7 @@ use yii\helpers\ArrayHelper;
                       <tr>
                       <th scope="row">5</th>
                       <td>Pengeluaran Rill</td>
-                       <td><?= Html::a('Cetak', ['dpr', 'id' => $model->id_kegiatan], ['target'=>'_blank','class' => 'btn btn-primary']) ?></td>
+                       <td><?= Html::a('Cetak', ['dpr', 'id' => $model->id_kegiatan,'data'=>'Maaf Tidak Terdapat Pengeluaran Rill'], ['target'=>'_blank','class' => 'btn btn-primary']) ?></td>
                        <tr>
                       
                        <?php  break;

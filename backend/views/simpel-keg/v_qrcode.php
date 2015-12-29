@@ -28,7 +28,16 @@ use common\components\MyHelper;
 
                     <tr>
                         <td><?= $no ?></td>
-                        <td><?= $key->pegawai->nama_cetak ?></td>
+                        <td>
+                         <?php 
+                            if ($key['pegawai_id']>0){ ?>
+                                    <?= $key->pegawai->nama_cetak ?>
+                                  <?php  }else{ 
+                                    echo ucwords($key['nama']);
+                                }
+                            ?>
+
+                        </td>
                     </tr>
 
                <?php  $no++;

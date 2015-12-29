@@ -376,7 +376,8 @@ header.navbar-inverse.navbar-fixed-bottom {
 }
 
 .sidebar-nav li.active>ul {
-    display: block
+    display: block;
+    background-color: transparent;
 }
 
 .sidebar-nav ul a {

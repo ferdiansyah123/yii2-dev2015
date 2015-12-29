@@ -80,73 +80,89 @@ Modal::end();
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <?php
-                            $data2 = ArrayHelper::map(\common\models\Pegawai::find()->asArray()->all(), 'nip', 'nama_cetak');
-                            echo $form->field($model, 'pegawai_id')->widget(Select2::classname(), ['data' => $data2, 'options' => ['id' => 'data1', 'placeholder' => 'Pilih Nama Personil'], 'pluginOptions' => ['allowClear' => true], ])->label('Pilih Nama Personil');
-                            ?>
-                             <?php
+                          <select id="dropDown" class="form-control">
+                            <option>Choose...</option>
+                            <option value="div1">Pegawai </option>
+                            <option value="div2">Non Pegawai</option>
+                         </select>
+                        <div id="div1" class="drop-down-show-hide">
+                        <br/>
+                        <?php
+                                $data2 = ArrayHelper::map(\common\models\Pegawai::find()->asArray()->all(), 'nip', 'nama_cetak');
+                                echo $form->field($model, 'pegawai_id')->widget(Select2::classname(), ['data' => $data2, 'options' => ['id' => 'data1', 'placeholder' => 'Pilih Nama Personil'], 'pluginOptions' => ['allowClear' => true],])->label('Pilih Nama Personil');
+                         ?>
+                          <?php
                             echo $form->field($model, 'tingkat_id')->widget(Select2::classname(), ['data' => ['1'=>'Tingkat A','2'=>'Tingkat B','3'=>'Tingkat C','4'=>'Tingkat D'], 'options' => ['id' => 'data3', 'placeholder' => 'Pilih Tingkat'], 'pluginOptions' => ['allowClear' => true], ])->label('Pilih Tingkat');
                             ?>
-
-                            <p style="display: none;" id="dtg"><?= MyHelper::Formattgl($model2->tgl_mulai) ?></p>
-                            <p style="display: none;" id="kmbl"><?= MyHelper::Formattgl($model2->tgl_selesai) ?></p>
-                            <p style="display: none;" id="kdtg"><?= $model2->kotaAsal->nama ?></p>
-                            <p style="display: none;" id="kkmbl"><?= $model2->kotaTujuan->nama ?></p>
-                            <p style="display: none;" id="kprov"><?= $model2->kotaTujuan->provinsi->nama ?></p>
-                            <p style="display: none;" id="mkn"><?= $model->uang_makan ?> </p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <?php
-                            echo $form->field($model, 'no_sp')->textInput()->label('No. Surat Penugasan');
-                            ?>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <?php
-                            echo $form->field($model2, 'tgl_mulai')->widget(DatePicker::classname(), ['options' => ['placeholder' => 'Tanggal Keberangkatan'], 'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-m-d', ]])->label('Tangal Keberangkatan');
-                            ?>
-                        </div>
-                       
-                        <div class="form-group">
-                            <?php
+                        
+                         <?php
                             $data9 = ArrayHelper::map(\common\models\Pegawai::find()->asArray()->all(), 'nip', 'nama_cetak');
                             echo $form->field($model, 'pejabat')->widget(Select2::classname(), ['data' => $data9, 'options' => ['id' => 'data2', 'placeholder' => 'Pilih Pejabat Memberi Tugas'], 'pluginOptions' => ['allowClear' => true], ])->label('Pilih Pejabat Memberi Tugas');
                             ?>
                             
                         </div>
-                        <div class="form-group">
+                        <div id="div2" class="drop-down-show-hide">
+                            <br/>
+                            <?php
+                            echo $form->field($model, 'nama')->textInput()->label('Nama Pegawai Luar');
+                            ?>
+                             <?php
+                            echo $form->field($model, 'nip')->textInput()->label('NIP');
+                            ?>
+                            <?php
+                            echo $form->field($model, 'gol')->textInput()->label('Nama Jabatan');
+                            ?>
+                             <?php
+                            echo $form->field($model, 'jab')->textInput()->label('Gol');
+                            ?>
+                             <?php
+                            echo $form->field($model, 'instansi')->textInput()->label('Nama Instansi');
+                            ?>
+                              <?php
+                            echo $form->field($model, 'pnama')->textInput()->label('Nama Pendatangan');
+                            ?>
+                            <?php
+                            echo $form->field($model, 'pnip')->textInput()->label('NIP Jabatan');
+                            ?>
+                             <?php
+                            echo $form->field($model, 'pjab')->textInput()->label('Jabatan');
+                            ?>
+                        </div>
+                         <p style="display: none;" id="dtg"><?= MyHelper::Formattgl($model2->tgl_mulai) ?></p>
+                            <p style="display: none;" id="kmbl"><?= MyHelper::Formattgl($model2->tgl_selesai) ?></p>
+                            <p style="display: none;" id="kdtg"><?= $model2->kotaAsal->nama ?></p>
+                            <p style="display: none;" id="kkmbl"><?= $model2->kotaTujuan->nama ?></p>
+                            <p style="display: none;" id="kprov"><?= $model2->kotaTujuan->provinsi->nama ?></p>
+                            <p style="display: none;" id="mkn"><?= $model->uang_makan ?> </p>
+                    </div>
+                    </div>
+                    <div class="col-md-6">
+                            <?php
+                            echo $form->field($model, 'no_sp')->textInput()->label('No. Surat Penugasan');
+                            ?>
+                            <?php
+                            echo $form->field($model2, 'tgl_mulai')->widget(DatePicker::classname(), ['options' => ['placeholder' => 'Tanggal Keberangkatan'], 'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-m-d', ]])->label('Tangal Keberangkatan');
+                            ?>
+         
                             <?php
                             $data2 = ArrayHelper::map(\common\models\Angkutan::find()->asArray()->all(), 'angkutan_id', 'nama');
                             echo $form->field($model, 'angkutan')->widget(Select2::classname(), ['data' => $data2, 'options' => ['placeholder' => 'Pilih Angkutan'], 'pluginOptions' => ['allowClear' => true], ])->label('Pilih Angkutan');
                             ?>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
+    
                             <?php
                             echo $form->field($model2, 'tgl_selesai')->widget(DatePicker::classname(), ['options' => ['placeholder' => 'Tanggal Kembali'], 'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-m-d', ]])->label('Tangal Kembali');
                             ?>
-                        </div>
 
-                 
-                        <div class="form-group">
                             <?php
                             echo $form->field($model, 'tgl_penugasan')->widget(DatePicker::classname(), ['options' => ['id' => 'tglsp','require' => true,'placeholder' => 'Tanggal Penugasan'], 'pluginOptions' => ['autoclose' => true, 'format' => 'yyyy-m-d', ]])->label('Tanggl Penugasan');
                             ?>
-                        </div>
-                        <div class="form-group">
+
                             <?php
                             echo $form->field($model, 'uang_makan')->widget(TouchSpin::classname(), ['options' => ['id' => 'idmakan', 'placeholder' => 'Masukan Jumlah Uang Makan'], 'pluginOptions' => ['buttonup_class' => 'btn btn-primary', 'buttondown_class' => 'btn btn-info', 'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>', 'buttondown_txt' => '<i class="glyphicon glyphicon-minus-sign"></i>']]);
                             ?>
                         </div>
                     </div>
                 </div>
-            </div>
             <div id="step-2">
                 <br/>
                 <h2 class="StepTitle">Input Data Pembiayaan</h2>
@@ -231,3 +247,12 @@ Modal::end();
     </td></tr>
 </table>
 <?php echo $this->render('biaya') ?>
+<script type="text/javascript">
+    $('.drop-down-show-hide').hide();
+
+$('#dropDown').change(function () {
+    $('.drop-down-show-hide').hide()
+    $('#' + this.value).show();
+
+});
+</script>

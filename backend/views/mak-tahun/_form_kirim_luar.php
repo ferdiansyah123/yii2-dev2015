@@ -20,7 +20,7 @@ use \common\components\HelperUnit;
      'enableAjaxValidation' => false,]); ?>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'mak')->textInput(['readonly' => true, 'value' => $result['nas_prog_id'] . '.' . $result['nas_keg_id'] . '.' . $result['kdoutput'] . '.' . $result['kdsoutput'] . '.' . $result['kdkmpnen'] . '.' . $result['kode_mak']]) ?>
+            <?= $form->field($model, 'mak')->textInput(['readonly' => true, 'value' => $result['nas_prog_id'] . '.' . $result['nas_keg_id'] . '.' . $result['kdoutput'] . '.' . $result['kdsoutput'] . '.' . $result['kdkmpnen'] . '.' . $result['kdskmpnen'].'.'. $result['kode_mak']]) ?>
 
             <?= $form->field($model, 'detail_id')->hiddenInput(['rows' => 6, 'value' => $result['detail_id']])->label(false) ?>
             <?= $form->field($model, 'kode_mak')->hiddenInput(['rows' => 6, 'value' => $result['kode_mak']])->label(false) ?>
@@ -94,7 +94,7 @@ use \common\components\HelperUnit;
 
 
             <?php
-            $data = ArrayHelper::map(\common\models\Pegawai::find()->asArray()->all(), 'nip', 'nama_cetak');
+            $data = ArrayHelper::map(\common\models\Pegawai::find()->where('unit_id=132210')->asArray()->all(), 'nip', 'nama_cetak');
             echo $form->field($model, 'nip_bpp')->widget(Select2::classname(), [
                 'data' => $data,
                 'theme' => Select2::THEME_BOOTSTRAP,

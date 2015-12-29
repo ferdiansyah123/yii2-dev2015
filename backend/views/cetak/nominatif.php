@@ -3,6 +3,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\ArrayHelper;
 use \common\components\MyHelper;
+use \common\components\HelperUnit;
 
 ?>
 <style type="text/css">
@@ -74,11 +75,24 @@ use \common\components\MyHelper;
         <tr>
         <td align="center"><?php echo $no; ?></td>
         <td align="left">
-
-            <?= $data->pegawai->nama ?> <br/>
-            NIP. <?= $data->pegawai->nip ?>
+        <?php 
+        if($data['pegawai_id']>0){ ?>
+            <?= HelperUnit::Pegawais($data->pegawai_id)->nama_cetak ?> <br/>
+            NIP. <?= $data->pegawai_id ?>
+      <?php  }else{
+            echo $data['nama'].'<br/>';
+            echo 'NIP. '.$data['nip'];
+        } ?>
         </td>
-        <td width="80" align="center"><?= MyHelper::Gole($data->pegawai->gol_id) ?> </td>
+        <td width="80" align="center">
+         <?php 
+        if($data['pegawai_id']>0){ ?>
+        <?= MyHelper::Gole($data->pegawai->gol_id) ?> 
+      <?php  }else{
+            echo ucwords($data['gol']);
+        
+        } ?>
+        </td>
         <td align="center"><?= $model->kotaAsal->nama ?> </td>
         <td align="center"><?= substr($data->tgl_berangkat, 8, 2) ?>&nbsp;&nbsp;s/d&nbsp;&nbsp;<?= substr($data->tgl_kembali, 8, 2) ?> &nbsp; <?= MyHelper::BacaBulan(substr($data->tgl_kembali, 5, 2)) ?>  <?= substr($data->tgl_kembali, 0, 4) ?></td>
         <td align="center">
@@ -174,8 +188,8 @@ echo number_format($count, 0 ,',','.');
 <table border="3">
     <tr>
         <td style="padding-top:60px;" align="center" width="300">
-            <b><u><?= $model->bpp->nama_cetak ?></u></b><br/>
-            NIP. <?= $model->nip_bpp ?> 
+            <b><u>   <?= HelperUnit::Pegawais($model->nip_bpp)->nama_cetak ?></u></b><br/>
+            NIP. <?= $model['nip_bpp'] ?> 
         </td>
         <td width="300">
         </td>

@@ -26,7 +26,7 @@ use yii\helpers\Url;
             
             <div>
 
-                <?= $form->field($model, 'email')->textInput(['maxlength' => true,'placeholder'=>"Username"])->label(false) ?>
+                <?= $form->field($model, 'email')->textInput(['maxlength' => true,'placeholder'=>"Masukan Email"])->label(false) ?>
             </div>
             
             <div class="form-group">

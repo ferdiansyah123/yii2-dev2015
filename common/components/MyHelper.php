@@ -343,13 +343,7 @@ class MyHelper extends Component {
         return $gole->nama;
     }
 
-    public function Kota($id) {
-        $gole = \common\models\MasterKokab::find()
-                ->where(['kota_id' => $id])
-                ->one();
-        return $gole->kokab_nama;
-    }
-
+    
     public function Struk($id) {
         //$ese = Ese::findOne()
         $struk = Struk::find()
@@ -891,11 +885,36 @@ class MyHelper extends Component {
         return $sum;
      }
 
-     
-   
+      public function Keg($id) {
+        $gole = \backend\models\SimpelKeg::find()
+                ->where(['id_kegiatan' => $id])
+                ->one();
+        return $gole->nama_keg;
+        }
+
+    public function Kegs($id) {
+        $gole = \backend\models\SimpelKeg::find()
+                ->where(['id_kegiatan' => $id])
+                ->one();
+        return $gole;
+        }
 
 
 
-    //total realisasi
-    //awal sisa
+   public function Kota($id) {
+        $gole = \backend\models\DafKota::find()
+                ->where(['kab_id' => $id])
+                ->one();
+        return $gole->nama;
+    }
+
+
+   public function Propinsi($id) {
+        $gole = \common\models\DafPropinsi::find()
+                ->where(['kab_id' => $id])
+                ->one();
+        return $gole->nama;
+    }
+
+
 }

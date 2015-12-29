@@ -18,7 +18,6 @@ $this->params['breadcrumbs'][] = 'Proses';
 $this->params['breadcrumbs'][] = 'Permohonan Dinas';
 
 $this->params['breadcrumbs'][] = $this->title;
-//echo $dataSerasi->sql;
 ?>
 
 <div class="simpel-keg-index">
@@ -46,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php } ?>
                 <?php if ((Mimin::filterRoute($this->context->id . '/tabuang'))) { ?>
                     <li>
-                        <a href="<?= Url::to(['simpel-keg/bendahar']) ?>" >
+                        <a href="<?= Url::to(['simpel-keg/bendahara']) ?>" >
                             Bendahara </a>
                     </li>
                 <?php } ?>
@@ -54,6 +53,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     <li >
                         <a href="<?= Url::to(['simpel-keg/varsip']) ?>" >
                             Arsip </a>
+                    </li>
+                <?php } ?>
+                <?php if ((Mimin::filterRoute($this->context->id . '/log'))) { ?>
+                    <li >
+                        <a href="<?= Url::to(['simpel-keg/log']) ?>" >
+                            Log Proses </a>
                     </li>
                 <?php } ?>
             </ul>
@@ -92,6 +97,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                         ,
                         ],
+                         
                           [
                             'attribute' => 'Mata Anggaran',
                             'headerOptions' => ['width' => '255'],
@@ -108,15 +114,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                         ,
                         ],
-
-                    //       [
-                    //         'attribute' => 'SUb',
-                    //         'headerOptions' => ['width' => '55'],
-                    //         'value' => function($data) {
-                    //             return $data['sub_mak_id'];
-                    // }
-                    //     ,
-                    //     ],
                             [
                             'attribute' => 'Jenis Kegiatan',
                             'headerOptions' => ['width' => '120'],
@@ -147,19 +144,20 @@ $this->params['breadcrumbs'][] = $this->title;
 
                                 'view' => function ($url, $model) {
 
-                                   
+                                    $kode = $model['nas_prog_id'].'.'.$model['nas_keg_id'].'.'.$model['kdoutput'].'.'.$model['kdsoutput'].'.'.$model['kdkmpnen'].'.'.$model['kdskmpnen'].'.'.$model['kode_mak'];
+                                    $akun = $model['kode_mak'];
                                      switch ($model['jenis_detail_id']) {
                                         case 3: 
                                             return Html::button('<span class="glyphicon glyphicon glyphicon-share-alt"></span> ', ['value' =>
-                                                Url::to(['mak-tahun/dn', 'id' => $model['detail_id'],'unit' => $model['unit_id']]), 'class' => 'modalButtonn btn btn-info', 'title' => 'Lanjut Proses']);
+                                                Url::to(['mak-tahun/dn', 'id' => $model['detail_id'],'unit' => $model['unit_id'],'kode' => $kode,'akun'=>$akun]), 'class' => 'modalButtonn btn btn-info', 'title' => 'Lanjut Proses']);
                                         break;
                                          case 4: 
                                             return Html::button('<span class="glyphicon glyphicon glyphicon-share-alt"></span> ', ['value' =>
-                                                Url::to(['mak-tahun/dn', 'id' => $model['detail_id'],'unit' => $model['unit_id']]), 'class' => 'modalButtonn btn btn-info', 'title' => 'Lanjut Proses']);
+                                                Url::to(['mak-tahun/dn', 'id' => $model['detail_id'],'unit' => $model['unit_id'],'kode' => $kode,'akun'=>$akun]), 'class' => 'modalButtonn btn btn-info', 'title' => 'Lanjut Proses']);
                                         break;
                                         case 5:
                                             return Html::button('<span class="glyphicon glyphicon glyphicon-share-alt"></span>', ['value' =>
-                                                Url::to(['mak-tahun/po', 'id' => $model['detail_id'],'unit' => $model['unit_id']]), 'class' => 'modalLuar btn btn-danger', 'title' => ' Lanjut Proses']);
+                                                Url::to(['mak-tahun/po', 'id' => $model['detail_id'],'unit' => $model['unit_id'],'kode' => $kode,'akun'=>$akun]), 'class' => 'modalLuar btn btn-danger', 'title' => ' Lanjut Proses']);
                                             break;
                                         
                                     }

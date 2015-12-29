@@ -68,6 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <th>Satuan Kerja</th>
                     <th scope="col" abbr="Starter"><center>Pagu</center></th>
             <th scope="col" abbr="Medium"><center>Realisasi</center></th>
+            <th scope="col" abbr="Medium"><center>Realisasi Serasi</center></th>
             <th scope="col" abbr="Business"><center>Sisa</center></th>
             <th scope="col" abbr="Deluxe"><center>Prosen</center></th>
             </tr>
@@ -117,15 +118,14 @@ $this->params['breadcrumbs'][] = $this->title;
                                 </div>
 
                             </th>
-                            <td align="center"><?php
-                             $sql_pagu = "SELECT sum(b.alokasi_sub_mak) FROM serasi2015_sql.news_nas_suboutput a LEFT JOIN serasi2015_sql.news_sub_mak_tahun b on a.suboutput_id=b.sub_mak_id LEFT JOIN pegawai.daf_unit c on a.unit_id3=c.unit_id WHERE a.tahun=".$tahun." and c.unit_id=".$sat['unit_id'];
-                             $nilaipagu = Yii::$app->db->createCommand($sql_pagu)->queryScalar();
-                                
-                            $pagn = number_format($nilaipagu,0,",",".");
+                            <td align="right">
+                            <?php
+                             $nilaipagu = HelperUnit::PaguPim($sat->unit_id);
+                             $pagn = number_format($nilaipagu,0,",",".");
                             echo $pagn;
                              ?>   
                              </td>
-                            <td align="center">
+                            <td align="right">
                             	<?php
                             $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
                             
@@ -138,16 +138,26 @@ $this->params['breadcrumbs'][] = $this->title;
                            echo number_format($nilai,0,",",".");
                              ?>  
                             </td>
-                            <td align="center"><?= number_format($nilaipagu-$nilai,0,",","."); ?></td>
-                            <td align="center"><?php 
-                           		$data = @($nilai/$nilaipagu)*100;
+                            <td align="right">
+                                  <?php
+                                $datapagu = HelperUnit::PaguSerasii($sat['unit_id']);
+                                 if($datapagu>0){
+                                        $d = number_format($datapagu, 0, ",", ".");
+                                        echo $d;
+                                   }else{
+                                       echo "0";
+                                    }
+                                ?>  
+                            </td>
+                            <td align="right"><?= number_format($nilaipagu-($nilai+$datapagu),0,",","."); ?></td>
+                            <td align="right"><?php 
+                           		$data = @(($nilai+$datapagu)/$nilaipagu)*100;
                             	if(!empty($data)){
                             		echo number_format($data,0,",",".");
                             	}else{
                             		echo '0';
                             	}
                             ?> %</td>
-
                         </tr>
 
 

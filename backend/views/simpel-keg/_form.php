@@ -2,7 +2,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-
+use common\components\HelperUnit;
+use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
+use kartik\date\DatePicker;
 /* @var $this yii\web\View */
 /* @var $model backend\models\SimpelKeg */
 /* @var $form yii\widgets\ActiveForm */
@@ -12,49 +15,98 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'mak')->textInput(['readonly'=>true]) ?>
 
-    <?= $form->field($model, 'mak')->textInput() ?>
+            <?= $form->field($model, 'nama_keg')->textInput(['readonly'=>true,'maxlength' => true]) ?>
 
-    <?= $form->field($model, 'nama_keg')->textInput(['maxlength' => true]) ?>
+             <?php
+                $data = ArrayHelper::map(\backend\models\DafKota::find()->asArray()->all(), 'kab_id', 'nama');
+                echo $form->field($model, 'berangkat_asal')->widget(Select2::classname(), [
+                    'data' => $data,
+                    'theme' => Select2::THEME_BOOTSTRAP,
+                    'options' => ['id' => 'brkota',  'placeholder' => 'Pilih Kota Keberangkatan'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]);
+                ?>
+              <?php
+            echo $form->field($model, 'tgl_mulai')->widget(DatePicker::classname(), [
+                'options' => ['value' => $result['renc_tgl_mulai'], 'placeholder' => 'Pilih Tanggal'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-m-d',
+                ]
+            ])->label('Tanggal Keberangkatan');
+            ?>
 
-    <?= $form->field($model, 'tujuan')->textInput(['maxlength' => true]) ?>
+           <?php
+                echo $form->field($model, 'tgl_penugasan')->widget(DatePicker::classname(), [
+                    'options' => [ 'placeholder' => 'Pilih Tanggal'],
+                    'pluginOptions' => [
+                        'autoclose' => true,
+                        'format' => 'yyyy-m-d',
+                    ]
+                ])->label('Tanggal Penugasan');
+                ?>
 
-    <?= $form->field($model, 'tgl_mulai')->textInput() ?>
+            <div class="form-group field-simpelkeg-unit_id required">
+            <label class="control-label" for="simpelkeg-unit_id">Unit Kerja</label><br/>
+            <?= HelperUnit::unit($model->unit_id) ?>
 
-    <?= $form->field($model, 'tgl_selesai')->textInput() ?>
+            <div class="help-block"></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group field-simpelkeg-unit_id required">
+            <label class="control-label" for="simpelkeg-unit_id">Nama PPK</label><br/>
+            <?= HelperUnit::Pegawai($model->nip_ppk) ?>
 
-    <?= $form->field($model, 'unit_id')->textInput() ?>
+            <div class="help-block"></div>
+            </div>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+            <?= $form->field($model, 'no_spd')->textInput(['readonly'=>true,'maxlength' => true]) ?>
 
-    <?= $form->field($model, 'time_input')->textInput() ?>
+             <?php
+                $data = ArrayHelper::map(\backend\models\DafKota::find()->asArray()->all(), 'kab_id', 'nama');
+                echo $form->field($model, 'tujuan')->widget(Select2::classname(), [
+                    'data' => $data,
+                    'theme' => Select2::THEME_BOOTSTRAP,
+                    'options' => ['id' => 'jk',  'placeholder' => 'Pilih Kota Keberangkatan'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                    ],
+                ]);
+                ?>
+            <?php
+            echo $form->field($model, 'tgl_selesai')->widget(DatePicker::classname(), [
+                'options' => ['value' => $result['renc_tgl_mulai'], 'placeholder' => 'Pilih Tanggal'],
+                'pluginOptions' => [
+                    'autoclose' => true,
+                    'format' => 'yyyy-m-d',
+                ]
+            ])->label('Tanggal Kembali');
+            ?>
 
-    <?= $form->field($model, 'nip_ppk')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'no_sp')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'no_spd')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'angkutan')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'berangkat_asal')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'penandatangan')->textInput(['maxlength' => true]) ?>
-
-
-
-    <?= $form->field($model, 'jml_dl')->textInput() ?>
-
-    <?= $form->field($model, 'serasi2015.news_detail_keg_detail_id')->textInput() ?>
-
-    <?= $form->field($model, 'nip_bpp')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'pegawai.master_pegawai_nip')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'status_penyel')->textInput() ?>
+            <?php
+            $data = ArrayHelper::map(\common\models\Pegawai::find()->asArray()->all(), 'nip', 'nama_cetak');
+            echo $form->field($model, 'nip_bpp')->widget(Select2::classname(), [
+                'data' => $data,
+                'theme' => Select2::THEME_BOOTSTRAP,
+                'options' => ['placeholder' => 'Pilih Nama BPP'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                ],
+            ])->label('Pilih Nama BPP');
+            ?>
+        </div>
+    </div>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update Data Perjadin'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

@@ -116,7 +116,8 @@ class HelperUnit extends Component {
      $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
      $gole = Yii::$app->db->createCommand("SELECT 
      sum(alokasi_sub_mak) as total
-     FROM pagu_mak where tahun=".$tahun." and unit_id =".$id)->queryScalar();
+     FROM v_pagu where tahun=".$tahun." and unit_id =".$id)->queryScalar();
+
         if(!empty($gole)){
         return $gole;
 
@@ -125,14 +126,45 @@ class HelperUnit extends Component {
     }
     }
 
+    //pagu untuk eselon tiga
+    // public function Pag($id) {
+    //     $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
+    //     $gole = Yii::$app->db->createCommand("SELECT sum(c.alokasi_sub_mak) FROM serasi2015_sql.news_detail_keg a
+    //         INNER JOIN serasi2015_sql.news_nas_suboutput b on a.suboutput_id=b.suboutput_id
+    //         INNER JOIN serasi2015_sql.news_sub_mak_tahun c on  b.suboutput_id=c.suboutput_id
+    //         WHERE b.unit_id3='".$id."' and c.tahun=".$tahun)->queryScalar();
+    //     if(!empty($gole)){
+    //         return $gole;
+    //     }else{
+    //         return '0';
+    //     }
+    // }
+
      public function Real($id) {
      $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
 
      $gole = Yii::$app->db->createCommand("SELECT SUM(jml) as JUMLah FROM `simpel_rincian_biaya` as g WHERE id_kegiatan in 
 (SELECT a.id_kegiatan FROM simpel_keg a  LEFT JOIN 
- pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status=4 and g.bukti_kwitansi in(1,2) and 
+ pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status in(2,3,4) and g.bukti_kwitansi in(1,2) and 
  b.unit_id 
- IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE a.status=4 and c.unit_parent_id ='".$id."'))")->queryScalar();
+ IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE a.status in (2,3,4) and c.unit_parent_id ='".$id."'))")->queryScalar();
+        
+        if(!empty($gole)){
+        return $gole;
+
+    }else{
+        return '0';
+    }
+    }
+    //menghitung eselon 3
+     public function RealEse($id) {
+     $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
+
+     $gole = Yii::$app->db->createCommand("SELECT SUM(jml) as JUMLah FROM `simpel_rincian_biaya` as g WHERE id_kegiatan in 
+(SELECT a.id_kegiatan FROM simpel_keg a  LEFT JOIN 
+ pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status in(2,3,4) and g.bukti_kwitansi in(1,2) and 
+ b.unit_id 
+ IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE a.status in (2,3,4) and c.unit_id ='".$id."'))")->queryScalar();
         
         if(!empty($gole)){
         return $gole;
@@ -182,11 +214,25 @@ class HelperUnit extends Component {
         return $gole->nama;
     }
 
+     public function Ese($id) {
+        $gole = \common\models\DaftarUnit::find()
+                ->where(['unit_id' => $id])
+                ->one();
+        return $gole->eselon;
+    }
+
      public function Pegawai($id) {
         $gole = \common\models\Pegawai::find()
                 ->where(['nip' => $id])
                 ->one();
-        return $gole->nama;
+        return $gole->nama_cetak;
+    }
+
+    public function Pegawais($id) {
+        $gole = \common\models\Pegawai::find()
+                ->where(['nip' => $id])
+                ->one();
+        return $gole;
     }
 
     
@@ -231,5 +277,96 @@ class HelperUnit extends Component {
         $count2 = Yii::$app->db->createCommand($sql)->queryScalar();
        return ;
     }
+
+    //pagu pimpinan2
+
+    public function PaguPim($id){
+        // $sql = "SELECT SUM( alokasi_sub_mak ) 
+        //         FROM  serasi2015_sql.news_nas_suboutput a
+        //         INNER JOIN serasi2015_sql.news_sub_mak_tahun b ON a.suboutput_id = b.suboutput_id
+        //         WHERE  a.unit_id3='".$id."'";
+        $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
+     $gole = Yii::$app->db->createCommand("SELECT 
+     sum(alokasi_sub_mak) as total
+     FROM v_pagu where tahun=".$tahun." and unit_id3 =".$id)->queryScalar();
+
+        if(!empty($gole)){
+        return $gole;
+
+    }else{
+        return '0';
+    }
+    }
+    public function PaguUser($id){
+        // $sql = "SELECT SUM( alokasi_sub_mak ) 
+        //         FROM  serasi2015_sql.news_nas_suboutput a
+        //         INNER JOIN serasi2015_sql.news_sub_mak_tahun b ON a.suboutput_id = b.suboutput_id
+        //         WHERE  a.unit_id3='".$id."'";
+        $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
+     $gole = Yii::$app->db->createCommand("SELECT 
+     sum(alokasi_sub_mak) as total
+     FROM v_pagu where tahun=".$tahun." and unit_id =".$id)->queryScalar();
+
+        if(!empty($gole)){
+        return $gole;
+
+    }else{
+        return '0';
+    }
+    }
+
+    public function PaguSerasi($id){
+        $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                INNER JOIN serasi2015_sql.news_sub_mak_tahun as g on b.suboutput_id=g.suboutput_id
+                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                WHERE b.unit_id=".$id." and a.jenis_detail_id  in (3,4,5) and g.kode_mak in (524111,524113,524114,524119)";
+        $count = Yii::$app->db->createCommand($sql)->queryScalar();
+        return $count;
+    }
+
+      public function PaguSerasii($id){
+        $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                INNER JOIN serasi2015_sql.news_sub_mak_tahun as g on b.suboutput_id=g.suboutput_id
+                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                WHERE b.unit_id3=".$id." and a.jenis_detail_id  in (3,4,5) and g.kode_mak in (524111,524113,524114,524119)";
+        $count = Yii::$app->db->createCommand($sql)->queryScalar();
+        return $count;
+    }
+
+       public function PaguSerasiEse($id){
+        $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                INNER JOIN serasi2015_sql.news_sub_mak_tahun as g on b.suboutput_id=g.suboutput_id
+                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                WHERE b.unit_id3=".$id." and a.jenis_detail_id in (3,4,5) and g.kode_mak in (524111,524113,524114,524119)";
+        $count = Yii::$app->db->createCommand($sql)->queryScalar();
+        return $count;
+    }
+
+    public function Kotas($id){
+        $data = \backend\models\DafKota::find()
+                ->where(['kab_id' => $id])
+                ->one();
+        return $data;
+    }
+
+
+        public function Propinsis($id){
+        $data = \backend\models\DafPropinsi::find()
+                ->where(['propinsi_id' => $id])
+                ->one();
+        return $data;
+    }
+
+      public function Negaras($id){
+        $data = \backend\models\DafNegara::find()
+                ->where(['kode_negara' => $id])
+                ->one();
+        return $data->nama;
+    }
+
+
 
 }

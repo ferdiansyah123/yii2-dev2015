@@ -15,7 +15,6 @@ use Yii;
  * @property string $tgl_selesai
  * @property integer $unit_id
  * @property integer $user_id
- * @property string $time_input
  * @property string $nip_ppk
  * @property string $no_sp
  * @property string $no_spd
@@ -52,12 +51,11 @@ class SimpelKeg extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_kegiatan', 'mak', 'nama_keg', 'tujuan', 'tgl_mulai', 'tgl_selesai', 'unit_id', 'user_id', 'time_input', 'nip_ppk', 'no_sp', 'no_spd', 'angkutan', 'berangkat_asal','suboutput_id', 'penandatangan', 'nip_ttd',  ], 'required'],
-            [['id_kegiatan', 'negara','mak', 'unit_id','nip_kepala', 'user_id', 'jml_dl',  'status_penyel'], 'integer'],
-            [['tgl_mulai', 'tgl_selesai','negara', 'time_input'], 'safe'],
-            [['nama_keg', 'no_sp', 'no_reg', 'no_spd', 'tmpt_penyel', 'berangkat_asal', 'penandatangan', 'jabatan_ttd'], 'string', 'max' => 405],
-            [['tujuan', 'nip_kepala','angkutan'], 'string', 'max' => 20],
-            [['nip_ppk', 'nip_ttd', 'nip_bpp',], 'string', 'max' => 18]
+            [['mak', 'nama_keg', 'tujuan', 'tgl_mulai', 'tgl_selesai','no_spd', 'berangkat_asal'], 'required'],
+            [['tgl_mulai', 'tgl_selesai','negara'], 'safe'],
+            [['nama_keg', 'no_sp', 'no_reg', 'no_spd', 'berangkat_asal'], 'string', 'max' => 405],
+            [['tujuan','negara_tujuan','kota_negara','kota_asal'], 'string', 'max' => 2000],
+            [['nip_bpp',], 'string', 'max' => 18]
         ];
     }
 
@@ -75,7 +73,6 @@ class SimpelKeg extends \yii\db\ActiveRecord
             'tgl_selesai' => Yii::t('app', 'Tgl Selesai'),
             'unit_id' => Yii::t('app', 'Unit ID'),
             'user_id' => Yii::t('app', 'User ID'),
-            'time_input' => Yii::t('app', 'Time Input'),
             'nip_ppk' => Yii::t('app', 'Nip Ppk'),
             'no_sp' => Yii::t('app', 'No Sp'),
             'no_spd' => Yii::t('app', 'No Spd'),

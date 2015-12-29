@@ -1,6 +1,0 @@
-<?php
-
-/* 
- Ilham Malik Ibrahim
- */
-

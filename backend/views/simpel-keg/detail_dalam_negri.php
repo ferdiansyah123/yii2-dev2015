@@ -57,7 +57,10 @@ if($buton > 0){ ?>
                 <td style="width:5%;" style="border-top: 2px solid black; border-bottom: 2px solid black; border-left: 2px solid black; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
                     <table style="width:80%;">
                         <tbody>
+                            <?php 
+                            if ($key->pegawai_id>0){ ?>
 
+                          
                             <tr>
                                 <td width="20%">Nama</td>
                                 <td valign="top">:</td>
@@ -80,7 +83,32 @@ if($buton > 0){ ?>
                                 <td><?php echo \common\components\MyHelper::Jab($key->pegawai->struk_id); ?></td>
 
                             </tr>
-                            
+
+                        <?php   }else{ ?>
+                            <tr>
+                                <td width="20%">Nama</td>
+                                <td valign="top">:</td>
+                                <td><?php echo $key->nama; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>NIP</td>
+                                <td valign="top">:</td>
+                                <td><?php echo $key->nip; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Gol</td>
+                                <td valign="top">:</td>
+                                <td><?php echo $key->gol; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Instansi</td>
+                                <td valign="top">:</td>
+                                <td><?php echo $key->instansi; ?></td>
+
+                            </tr>
+
+                        <?php    } ?>
                         </tbody></table>
                 </td>
                 <td style="width:10%;">
@@ -118,6 +146,9 @@ if($buton > 0){ ?>
                                 <td valign="top">:</td>
                                 <td>(<?php echo $key->tgl_berangkat; ?>) - (<?php echo $key->tgl_kembali; ?>)</td>
                             </tr>
+                         <?php 
+                            if ($key->pegawai_id>0){ ?>
+
                              <tr>
                                 <td>Penandatangan</td>
                                 <td valign="top">:</td>
@@ -133,20 +164,40 @@ if($buton > 0){ ?>
                                 <td valign="top">:</td>
                                 <td><?php echo \common\components\MyHelper::Jab($key->pej->struk_id); ?></td>
                             </tr>
-                            
                             <tr>
                                 <td>Jumlah DL Hari Kerja</td>
                                 <td valign="top">:</td>
                                 <td><?php echo $key->uang_makan; ?>  Hari</td>
                             </tr>
-
+                            <?php   }else{ ?>
+                            <tr>
+                                <td>Penandatangan</td>
+                                <td valign="top">:</td>
+                                <td><?php echo $key->pnama; ?></td>
+                            </tr>
+                            <tr>
+                                <td>NIP Penandatangan</td>
+                                <td valign="top">:</td>
+                                <td><?php echo $key->pnip; ?></td>
+                            </tr>
+                             <tr>
+                                <td>Jab Penandatangan</td>
+                                <td valign="top">:</td>
+                                <td><?= $key->pjab ?></td>
+                            </tr>
+                            <tr>
+                                <td>Jumlah DL Hari Kerja</td>
+                                <td valign="top">:</td>
+                                <td><?php echo $key->uang_makan; ?>  Hari</td>
+                            </tr>
+                            <?php    } ?>
 
                         </tbody></table>
             
                 </td>
                 <td style="width:9000%;">
                   <?php
-                $data = \backend\models\SimpelRincianBiaya::find()->where('personil_id='.$key->id_personil.' and kat_biaya_id in(1,2,3,4,5,6,7,8,9) ')->all();
+                $data = \backend\models\SimpelRincianBiaya::find()->where('personil_id='.$key->id_personil.' and kat_biaya_id in(1,2,3,4,5,6,7,8,9,10) ')->all();
                 ?>
                   <table style="width:100%">
                         <tbody>

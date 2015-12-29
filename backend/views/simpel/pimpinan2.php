@@ -62,12 +62,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
-        <table class="table1" width="100%">
+        <table class="table1 table-striped" width="100%">
             <thead>
                 <tr>
                     <th>Satuan Kerja</th>
                     <th scope="col" abbr="Starter"><center>Pagu</center></th>
             <th scope="col" abbr="Medium"><center>Realisasi</center></th>
+            <th scope="col" abbr="Medium"><center>Realisasi Serasi</center></th>
             <th scope="col" abbr="Business"><center>Sisa</center></th>
             <th scope="col" abbr="Deluxe"><center>Prosen</center></th>
             </tr>
@@ -81,62 +82,159 @@ $this->params['breadcrumbs'][] = $this->title;
                 $satker = DaftarUnit::find()->where('unit_id in ('.Yii::$app->user->identity->unit_id.')')->all();
                  
                 foreach ($satker as $unit) {
+                    $und = HelperUnit::ParentUnit($unit->unit_id);
+                    switch ($und) {
+                        case 110000:
+                            $jum = Yii::$app->db->createCommand("SELECT 
+                                sum(alokasi_sub_mak) as total
+                             FROM v_pagu where tahun=" . $tahun . " and unit_id in(111000,112000,113000,114000,115000)")->queryScalar();
+                            $totalreal = Yii::$app->db->createCommand("SELECT SUM(jml) as JUMLah FROM `simpel_rincian_biaya` as g WHERE id_kegiatan in 
+                            (SELECT a.id_kegiatan FROM simpel_keg a  LEFT JOIN 
+                             pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status in (2,3,4) and g.bukti_kwitansi in(1,2) and 
+                             b.unit_id 
+                             IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE c.unit_parent_id in (111000,112000,113000,114000,115000) ))")->queryScalar();
+                            
+                             $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                                WHERE b.unit_id in(111000,112000,113000,114000,115000)  and a.jenis_detail_id not in (3,4,5)";
+                            $totalserasi = Yii::$app->db->createCommand($sql)->queryScalar();
+                            break;
+                        case 120000:
+                            $jum = Yii::$app->db->createCommand("SELECT 
+                                sum(alokasi_sub_mak) as total
+                             FROM v_pagu where tahun=" . $tahun . " and unit_id in(".$unit['unit_id'].")")->queryScalar();
 
+                            $totalreal = Yii::$app->db->createCommand("SELECT SUM(jml) as JUMLah FROM `simpel_rincian_biaya` as g WHERE id_kegiatan in 
+                            (SELECT a.id_kegiatan FROM simpel_keg a  LEFT JOIN 
+                             pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status in (2,3,4) and g.bukti_kwitansi in(1,2) and 
+                             b.unit_id 
+                             IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE c.unit_parent_id in (121000,122000,123000,124000) ))")->queryScalar();
+
+                            $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                                WHERE b.unit_id in(121000,122000,123000,124000)  and a.jenis_detail_id not in (3,4,5)";
+                            $totalserasi = Yii::$app->db->createCommand($sql)->queryScalar();
+                            break;
+                        case 130000:
+                            $jum = Yii::$app->db->createCommand("SELECT 
+                                sum(alokasi_sub_mak) as total
+                             FROM v_pagu where tahun=" . $tahun . " and unit_id in(".$unit['unit_id'].")")->queryScalar();
+                            $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
+
+                            $totalreal = Yii::$app->db->createCommand("SELECT SUM(jml) as JUMLah FROM `simpel_rincian_biaya` as g WHERE id_kegiatan in 
+                            (SELECT a.id_kegiatan FROM simpel_keg a  LEFT JOIN 
+                             pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status in (2,3,4) and g.bukti_kwitansi in(1,2) and 
+                             b.unit_id 
+                             IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE c.unit_parent_id in (".$unit->unit_id.") ))")->queryScalar();
+
+                            $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                                WHERE b.unit_id in(".$unit->unit_id.")  and a.jenis_detail_id not in (3,4,5)";
+                            $totalserasi = Yii::$app->db->createCommand($sql)->queryScalar();
+                            break;
+                        case 161100:
+                            $jum = Yii::$app->db->createCommand("SELECT 
+                                sum(alokasi_sub_mak) as total
+                             FROM v_pagu where tahun=" . $tahun . " and  unit_id in(161100)")->queryScalar();
+                            $totalreal = Yii::$app->db->createCommand("SELECT SUM(jml) as JUMLah FROM `simpel_rincian_biaya` as g WHERE id_kegiatan in 
+                            (SELECT a.id_kegiatan FROM simpel_keg a  LEFT JOIN 
+                             pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status in (2,3,4) and g.bukti_kwitansi in(1,2) and 
+                             b.unit_id 
+                             IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE c.unit_parent_id in (161100) ))")->queryScalar();
+                           
+                            $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                                WHERE b.unit_id in(161100)  and a.jenis_detail_id not in (3,4,5)";
+                            $totalserasi = Yii::$app->db->createCommand($sql)->queryScalar();
+                            break;
+                        case 151000:
+                            $jum = Yii::$app->db->createCommand("SELECT 
+                                sum(alokasi_sub_mak) as total
+                             FROM v_pagu where tahun=" . $tahun . " and unit_id in(151000)")->queryScalar();
+                            $totalreal = Yii::$app->db->createCommand("SELECT SUM(jml) as JUMLah FROM `simpel_rincian_biaya` as g WHERE id_kegiatan in 
+                            (SELECT a.id_kegiatan FROM simpel_keg a  LEFT JOIN 
+                             pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status in (2,3,4) and g.bukti_kwitansi in(1,2) and 
+                             b.unit_id 
+                             IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE c.unit_parent_id in (151000) ))")->queryScalar();
+
+                            $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                                WHERE b.unit_id in(151000)  and a.jenis_detail_id not in (3,4,5)";
+                            $totalserasi = Yii::$app->db->createCommand($sql)->queryScalar();
+                            break;
+                        default:
+                            $sql = "SELECT sum(c.har_sat_real) FROM serasi2015_sql.news_detail_keg as a
+                                INNER JOIN serasi2015_sql.news_nas_suboutput as b on a.suboutput_id=b.suboutput_id
+                                INNER JOIN serasi2015_sql.news_lap_rincian as c on a.detail_id=c.detail_id
+                                WHERE b.unit_id in(111000,112000,113000,114000,115000)  and a.jenis_detail_id not in (3,4,5)";
+                            $totalserasi = Yii::$app->db->createCommand($sql)->queryScalar();
+                            break;
+                    }
                     ?>
                     <tr>
                         <td style="background-color: white;"  scope="row"></td>
                     </tr>
                     <tr>
-                        <th scope="row"> <?= HelperUnit::unit($unit->unit_id) ?></th>
-                       	<td align="center"><?php
-                            $pag = HelperUnit::Pagu($unit->unit_id);
-                            $pagn = number_format(HelperUnit::Pagu($unit->unit_id),0,",",".");
-                            echo $pagn;
-                             ?>   </td>
-                       	<td align="center"></td>
-                       	<td align="center"></td>
-                       	<td align="center"></td>
+                        <th scope="row" style="background-color:#022a78;"> <?= HelperUnit::Apagu($unit->unit_id) ?></th>
+                        <td align="center"><?= number_format($jum, 0, ",", ".") ?>
+
+                        </td>
+                        <td align="center"><?php echo number_format($totalreal, 0, ",", "."); ?></td>
+                        <td align="center"><?= number_format($totalserasi, 0, ",", ".") ?></td>
+                        <td align="center"><?php echo number_format($jum - ($totalreal+$totalserasi), 0, ",", "."); ?> </td>
+                        <td align="center"><?php echo number_format((($totalreal+$totalserasi) / $jum) * 100, 2, ",", "."); ?> %</td>
+
 
                     </tr>
 
+
                     <?php
                    
-                    $pimpin2 = DaftarUnit::find()->where("unit_parent_id='".$unit->unit_id."'")->all();
+                    $pimpin2 = DaftarUnit::find()->where("unit_parent_id='".$unit->unit_id."' and unit_id not in (131300)")->all();
                         
 
                     foreach ($pimpin2 as $sat) {
                         ?>
                         <tr>
-                            <th  width="280" bgcolor="gray" align="left">
+                            <th  width="280" style="background-color:#022a78;" align="left">
                                 <div class="pull-right">
-                                    <?= HelperUnit::unit($sat->unit_id) ?>   
+                                 <?= HelperUnit::unit($sat->unit_id) ?>   
                                 </div>
 
                             </th>
-                           <td align="center"><?php
-                             $sql_pagu = "SELECT sum(b.alokasi_sub_mak) FROM serasi2015_sql.news_nas_suboutput a LEFT JOIN serasi2015_sql.news_sub_mak_tahun b on a.suboutput_id=b.sub_mak_id LEFT JOIN pegawai.daf_unit c on a.unit_id3=c.unit_id WHERE a.tahun=".$tahun." and c.unit_id=".$sat['unit_id'];
-                             $nilaipagu = Yii::$app->db->createCommand($sql_pagu)->queryScalar();
-                                
-                            $pagn = number_format($nilaipagu,0,",",".");
-                            echo $pagn;
-                             ?>   
-                             </td>
-                        <td align="center">
+                              <td align="right"><?php
+                                $pag = HelperUnit::PaguPim($sat['unit_id']);
+                                $pagn = number_format(HelperUnit::PaguPim($sat['unit_id']), 0, ",", ".");
+                                echo $pagn;
+                                ?>   
+                            </td>
+
+                           <td align="right">
                                 <?php
-                            $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
-                            
-                            $sql = "SELECT SUM(jml) as JUMLah FROM `simpel_rincian_biaya` as g WHERE id_kegiatan in 
-                                (SELECT a.id_kegiatan FROM simpel_keg a  LEFT JOIN 
-                                 pegawai.daf_unit b ON a.unit_id=b.unit_id WHERE status=4 and g.bukti_kwitansi in(1,2) and 
-                                 b.unit_id 
-                                 IN (SELECT c.unit_id FROM  pegawai.daf_unit c  WHERE c.unit_id in (" . $sat['unit_id'] . ") ))";
-                            $nilai = Yii::$app->db->createCommand($sql)->queryScalar();
-                           echo number_format($nilai,0,",",".");
+                            $re = HelperUnit::RealEse($sat['unit_id']);
+                            $ren = number_format(HelperUnit::RealEse($sat['unit_id']),0,",",".");
+                            echo $ren;
                              ?>  
                             </td>
-                            <td align="center"><?= number_format($nilaipagu-$nilai,0,",","."); ?></td>
-                            <td align="center"><?php 
-                                $data = @($nilai/$nilaipagu)*100;
+                          <td align="right">
+                                 <?php
+                                $datapagu = HelperUnit::PaguSerasii($sat['unit_id']);
+                                 if($datapagu>0){
+                                        $d = number_format($datapagu, 0, ",", ".");
+                                        echo $d;
+                                   }else{
+                                       echo "0";
+                                    }
+                                ?>  
+                            </td>
+                             <td align="right"><?= number_format($nilaipagu-($re+HelperUnit::PaguSerasi($sat->unit_id)),0,",","."); ?></td>
+                            <td align="right"><?php 
+                                $data = @($re/$nilaipagu)*100;
                                 if(!empty($data)){
                                     echo number_format($data,0,",",".");
                                 }else{

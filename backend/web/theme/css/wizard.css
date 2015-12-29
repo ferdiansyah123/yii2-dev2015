@@ -359,7 +359,7 @@ css untuk table index*/
         }
         .table1 thead th:empty{
             background:transparent;
-            border:none;
+            border:10px;
         }
         .table1 tbody th{
             color:#fff;
@@ -377,8 +377,8 @@ css untuk table index*/
         }
         .table1 tfoot td{
             color: #9CD009;
-            font-size:32px;
-                       padding:10px 0px;
+            font-size:2px;
+                       padding:0px 0px;
             text-shadow:1px 1px 1px #444;
         }
         .table1 tfoot th{

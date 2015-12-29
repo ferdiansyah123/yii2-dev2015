@@ -34,15 +34,20 @@ class SimpelPersonil extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    
+    public $gol;
+    public $jab;
+    public $pnama;
+    public $pnip;
+    public $pjab;
+
     public function rules()
     {
         return [
-            [[ 'tgl_penugasan','pegawai_id', 'tingkat_id','tgl_berangkat', 'tgl_kembali', 'pejabat', 'no_sp','uang_makan', 'angkutan'], 'required'],
-            [['id_kegiatan', 'tingkat_id', 'uang_makan', 'angkutan', 'status'], 'integer'],
+            [[ 'tgl_penugasan','tgl_berangkat', 'tgl_kembali', 'no_sp','uang_makan', 'angkutan'], 'required'],
+            [['id_kegiatan', 'tingkat_id', 'uang_makan', 'angkutan', 'pegawai_id', 'pejabat'], 'integer'],
             [['tgl_penugasan', 'tgl_berangkat', 'tgl_kembali'], 'safe'],
-            [['no_sp','perintah_dari'], 'string'],
-            [['pegawai_id', 'pejabat'], 'string', 'max' => 255]
+            [['no_sp'], 'string']
+          
         ];
     }
 

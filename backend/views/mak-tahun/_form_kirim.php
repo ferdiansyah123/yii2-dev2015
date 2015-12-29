@@ -20,11 +20,23 @@ use \common\components\HelperUnit;
      'enableAjaxValidation' => false,]); ?>
     <div class="row">
         <div class="col-md-6">
-            <?= $form->field($model, 'mak')->textInput(['readonly' => true, 'value' => $result['nas_prog_id'] . '.' . $result['nas_keg_id'] . '.' . $result['kdoutput'] . '.' . $result['kdsoutput'] . '.' . $result['kdkmpnen'] . '.' . $result['kode_mak']]) ?>
+            <?= $form->field($model, 'mak')->textInput(['readonly' => true, 'value' => $kode]) ?>
 
             <?= $form->field($model, 'detail_id')->hiddenInput(['rows' => 6, 'value' => $result['detail_id']])->label(false) ?>
             <?= $form->field($model, 'kode_mak')->hiddenInput(['rows' => 6, 'value' => $result['kode_mak']])->label(false) ?>
-            <?= $form->field($model, 'ppk')->textInput(['readonly' => true,'rows' => 6, 'value' => HelperUnit::Pegawai(HelperUnit::Ppk(HelperUnit::ParentUnit($_GET['unit'])))])->label('Nama PPK ') ?>
+            <?php 
+
+            switch ($_GET['unit']) {
+                case 161100: ?>
+                   <?= $form->field($model, 'ppk')->textInput(['readonly' => true,'rows' => 6, 'value' => HelperUnit::Pegawai(HelperUnit::Ppk($_GET['unit']))])->label('Nama PPK ') ?>
+                <?php break;
+                 case 151000: ?>
+                   <?= $form->field($model, 'ppk')->textInput(['readonly' => true,'rows' => 6, 'value' => HelperUnit::Pegawai(HelperUnit::Ppk($_GET['unit']))])->label('Nama PPK ') ?>
+                <?php break;
+                default: ?>
+                   <?= $form->field($model, 'ppk')->textInput(['readonly' => true,'rows' => 6, 'value' => HelperUnit::Pegawai(HelperUnit::Ppk(HelperUnit::ParentUnit($_GET['unit'])))])->label('Nama PPK ') ?>
+                  <?php  break;
+                } ?>
           
             <div id="kota">         
                 <?php
@@ -81,7 +93,7 @@ use \common\components\HelperUnit;
 
 
             <?php
-            $data = ArrayHelper::map(\common\models\Pegawai::find()->asArray()->all(), 'nip', 'nama_cetak');
+            $data = ArrayHelper::map(\common\models\Pegawai::find()->where('unit_id=132210')->asArray()->all(), 'nip', 'nama_cetak');
             echo $form->field($model, 'nip_bpp')->widget(Select2::classname(), [
                 'data' => $data,
                 'theme' => Select2::THEME_BOOTSTRAP,

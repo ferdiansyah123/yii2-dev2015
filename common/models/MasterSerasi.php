@@ -54,6 +54,7 @@ class MasterSerasi extends \yii\db\ActiveRecord
     public $kota_negara;
     public $res;
     public $kota_asal;
+    public $ppk;
     public static function tableName()
     {
         return 'news_detail_keg';

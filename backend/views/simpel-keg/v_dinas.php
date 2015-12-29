@@ -56,6 +56,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             Arsip </a>
                     </li>
                 <?php } ?>
+                <?php if ((Mimin::filterRoute($this->context->id . '/log'))) { ?>
+                <li >
+                    <a href="<?= Url::to(['simpel-keg/log']) ?>" >
+                        Log Proses </a>
+                </li>
+                       <?php } ?>
             </ul>
         </div>
         <?php

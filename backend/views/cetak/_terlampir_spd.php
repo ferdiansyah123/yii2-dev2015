@@ -141,18 +141,39 @@ use \common\components\MyHelper;
             $b = substr($model['tgl_selesai'], 8, 2);
             $c = $b - $a;
             echo '<tr>'.
-            '<td style="padding-left:10px" valign="top"> '.$no.'</td>'.
-            '<td> '.$key->pegawai['nama'].'<br/>'.'NIP  '.$key->pegawai['nip'].'</td>'.
-            '<td> '.\common\components\MyHelper::Gole($key->pegawai['gol_id']).'</td>'.
-            '<td> '.\common\components\MyHelper::Jab($key->pegawai['struk_id']).'</td>'.
-            '<td> '.\common\components\MyHelper::Unit($key->pegawai['unit_id']).'</td>'.
-            '<td align="center">'.MyHelper::Tingkat(MyHelper::Struk($key->pegawai->struk_id)).'</td>'.
-            '<td> '.\common\components\MyHelper::Angkutan($key['angkutan']).'</td>'.
+            '<td style="padding-left:10px" valign="top"> '.$no.'</td>'; ?>
+              <?php 
+                if ($key->pegawai_id>0){ 
+                  echo '<td> '.$key->pegawai['nama'].'<br/>'.'NIP  '.$key->pegawai['nip'].'</td>'.
+                        '<td align="center"> '.\common\components\MyHelper::Gole($key->pegawai['gol_id']).'</td>'.
+                        '<td align="center"> '.\common\components\MyHelper::Jab($key->pegawai['struk_id']).'</td>'.
+                        '<td align="center"> '.$key->keg->kotaAsal->nama.'</td>'.
+                        '<td align="center">'.MyHelper::Tingkat(MyHelper::Struk($key->pegawai->struk_id)).'</td>';
+                  ?>
+                    <?php  }else{ 
+                  echo '<td> '.$key->nama.'<br/>'.'NIP  '.$key->nip.'</td>'.
+                            '<td> '.$key->gol.'</td>'.
+                            '<td align="center"> '.$key->jab.'</td>'.
+                            '<td align="center"> '.$key->keg->kotaAsal->nama.'</td>'.
+                            '<td align="center">-</td>';
+                  } ?>
+           <?php 
+
+           echo  '<td> '.\common\components\MyHelper::Angkutan($key['angkutan']).'</td>'.
             '<td>'. $key->no_sp.'</td>'.
             '<td align="center"> '. \common\components\MyHelper::Formattgl($model['tgl_mulai']).'</td>'.
             '<td align="center"> '.\common\components\MyHelper::Formattgl($model['tgl_mulai']).'</td>'.
-            '<td align="center"> '.\common\components\MyHelper::Formattgl($model['tgl_selesai']).'</td>'.
-            '<td align="center"> '.$c.' Hari</td>'.
+            '<td align="center"> '.\common\components\MyHelper::Formattgl($model['tgl_selesai']).'</td>';
+            ?>
+            <td align="center">
+            <?php 
+             $dat = substr($mode->tgl_selesai, 8 ,2)-substr($mode->tgl_mulai, 8, 2);
+             echo $dat+1 .' ( '.Myhelper::Terbilang($dat+1).' ) Hari' ;
+            ?>
+            </td>
+           
+           <?php
+           echo 
             '<td> </td>'.
 
 
@@ -180,8 +201,9 @@ use \common\components\MyHelper;
 <table>
     <tr>
         <td  width="300"></td>
-        <td style="padding-top:60px;" align="center" width="300">
-           
+        <td style="padding-top:60px;padding-left:-160px;" align="left" width="300">
+            <?= $model->bpp->nama_cetak ?><br/>
+            NIP. <?= $model->nip_bpp ?>
         </td>
         <td width="200">
         </td>

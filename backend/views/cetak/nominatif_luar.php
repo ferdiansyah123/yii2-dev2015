@@ -85,11 +85,25 @@ use \common\components\MyHelper;
         <tr>
             <td rowspan="3" align="center"><?php echo $no; ?></td>
             <td rowspan="3" align="left">
-
-                <?= $data->pegawai->nama ?> <br/>
-                NIP. <?= $data->pegawai->nip ?>
+                   <?php 
+                    if($data['pegawai_id']>0){ ?>
+                        <?= $data->pegawai->nama ?> <br/>
+                        NIP. <?= $data->pegawai->nip ?>
+                  <?php  }else{ ?>
+                        <?= $data['nama'] ?><br/>
+                        <?= $data['nip'] ?>
+                  <?php } ?>
             </td>
-            <td rowspan="3" width="80" align="center"><?php echo $jab; ?>  <?= MyHelper::Gole($data->pegawai->gol_id) ?> </td>
+            <td rowspan="3" width="80" align="center">
+              <?php 
+                    if($data->pegawai_id>0){ ?>
+                      <?php echo $jab; ?>  <?= MyHelper::Gole($data->pegawai->gol_id) ?>
+                  <?php  }else{ ?>
+                        <?= $data->gol ?>
+                  <?php } ?>
+            
+
+             </td>
             <td rowspan="3" width="100" align="center"><?= \common\components\Myhelper::Negara($model->negara_tujuan) ?>  </td>
             <td rowspan="3" align="center"><?= substr($data->tgl_berangkat, 8, 2) ?>&nbsp;&nbsp;s/d&nbsp;&nbsp;<?= substr($data->tgl_kembali, 8, 2) ?> &nbsp; <?= \common\components\MyHelper::BacaBulan(substr($data->tgl_kembali, 6, 2)) ?> <?= substr($data->tgl_kembali, 0, 4) ?></td>
             <td rowspan="3" align="center">

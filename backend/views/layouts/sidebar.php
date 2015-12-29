@@ -5,33 +5,19 @@ use yii\bootstrap\NavBar;
 use yii\helpers\Url;
 use hscstudio\mimin\components\Mimin;
 use yii\widgets\Menu;
-            use kartik\sidenav\SideNav;
+use kartik\sidenav\SideNav;
+use hscstudio\mimin\models\AuthAssignment;
+
 ?>
 <?= Html::csrfMetaTags() ?>
 <div id="sidebar">
     <div class="sidebar-scroll">
         <div class="sidebar-content">
+            <center>
             <a href="./index.php.html" class="sidebar-brand">
             <img src="<?= Url::to(['/images/ilham.png']) ?>" width="160px"/>
             </a>
-            <div class="sidebar-section sidebar-user clearfix">
-                <div class="sidebar-user-avatar">
-                    <a href="./page_ready_user_profile.php.html">
-                    <?= Html::img('@web/theme/img/User-Icon.png'); ?></a>
-                </div>
-                <div class="sidebar-user-name"><?= ucwords(Yii::$app->user->identity->username) ?></div>
-                <div class="sidebar-user-links">
-                  <?=
-                                    Html::a(Yii::t('app', ' <i class="fa fa-sign-out fa-fw"></i> Logout'), ['/site/logout'], [
-                                        //'class' => 'btn btn-danger',
-                                        'data' => [
-                                            //'confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
-                                            'method' => 'post',
-                                        ],
-                                    ])
-                                    ?>
-                </div>
-            </div>
+            </center>
             <?php
                     
                         
@@ -40,19 +26,25 @@ use yii\widgets\Menu;
                                 ['label' => 'Home', 'url' => ['/simpel/pimpinan1/']],
                                 ['label' => 'Home', 'url' => ['/simpel/pimpinan2/']],
                                 ['label' => 'Home', 'url' => ['/simpel/user/']],
+
                                 ['label' => 'Proses', 'url' => ['/simpel-keg/index/']],
+
                                 ['label' => 'Rekapitulasi', 'url' => ['/simpel-rekap/index/']],
-                                ['label' => 'Referensi', 'url' => ['/tabel-sbu/index/']],
+                                ['label' => 'Rekapitulasi', 'url' => ['/simpel-rekap/pimpinan/']],
+                                ['label' => 'Rekapitulasi', 'url' => ['/simpel-rekap/pimd/']],
+                                ['label' => 'Rekapitulasi', 'url' => ['/simpel-rekap/user/']],
 
                                 ['label' => 'Laporan', 'url' => ['/simpel-laporan/index/']],
                                 ['label' => 'Laporan', 'url' => ['/simpel-laporan/pimpinan/']],
                                 ['label' => 'Laporan', 'url' => ['/simpel-laporan/pimd/']],
                                 ['label' => 'Laporan', 'url' => ['/simpel-laporan/user/']],
 
+                                ['label' => 'Referensi', 'url' => ['/tabel-sbu/index/']],
+
                                 ['label' => 'Pengaturan', 'url' => ['/mimin/user/index/'], 'items' => [
-                                    ['label' => 'Pagu Mak', 'url' => ['/simpel-pagu/index']],
-                                    ['label' => 'User', 'url' => ['/mimin/user/']],
-                                    ['label' => 'User Group', 'url' => ['/mimin/role/']],
+                                    ['label' => 'Pagu Mak', 'url' => ['/simpel-pagu/index/']],
+                                    ['label' => 'User', 'url' => ['/mimin/user/index/']],
+                                    ['label' => 'User Group', 'url' => ['/mimin/role/index/']],
                                     // ['label' => 'Generator', 'url' => ['/mimin/route']],
                                 
                                 ]],
@@ -78,10 +70,27 @@ use yii\widgets\Menu;
                 <br/>
                 <br/>
 
-                <center>Computer Info</center>
-                <p align="center">
-                <font color="white">Anda login  dengan alamat IP :
-                <?php echo isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : ''; ?>
+                <center>Informasi Status Login</center>
+                <font color="white">
+                <br/>
+                <table >
+                    <tr>
+                        <td height="30px">Login</td>
+                        <td>&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;</td>
+                        <td align="right"><?= ucwords(Yii::$app->user->identity->username) ?> &nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                      <tr>
+                        <td>User Level</td>
+                        <td>&nbsp;&nbsp;&nbsp;: &nbsp;&nbsp;&nbsp;</td>
+                        <td align="right">
+                            <?php
+                              $roles = AuthAssignment::find()->where('user_id='.Yii::$app->user->id)->one();
+                            echo ucwords($roles['item_name']);
+                            ?>&nbsp;&nbsp;&nbsp;
+                        </td>
+                    </tr>
+                </table>
+           
                 </font>
                 </p>
             </div>

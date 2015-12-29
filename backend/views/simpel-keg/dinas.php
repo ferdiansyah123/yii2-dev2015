@@ -7,6 +7,8 @@ use yii\widgets\Pjax;
 use common\components\MyHelper;
 use yii\helpers\ArrayHelper;
 use hscstudio\mimin\components\Mimin;
+use common\components\HelperUnit;
+use yii\bootstrap\Modal;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SimpelKegSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -24,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     Daftar Permohonan Dinas</a>
             </li>
             <li class="active">
-                <a href="<?= Url::to(['simpel-keg/tabdinas']) ?>" >
+                <a href="<?= Url::to(['simpel-keg/dinas']) ?>" >
                     Daftar Perjalanan Dinas</a>
             </li>
             <li>
@@ -32,13 +34,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     Cetak </a>
             </li>
             <li>
-                <a href="<?= Url::to(['simpel-keg/tabuang']) ?>" >
+                <a href="<?= Url::to(['simpel-keg/bendahara']) ?>" >
                     Bendahara </a>
             </li>
             <li >
-                <a href="<?= Url::to(['simpel-keg/tabarsip']) ?>" >
+                <a href="<?= Url::to(['simpel-keg/varsip']) ?>" >
                     Arsip </a>
             </li>
+            <?php if ((Mimin::filterRoute($this->context->id . '/log'))) { ?>
+                <li >
+                    <a href="<?= Url::to(['simpel-keg/log']) ?>" >
+                        Log Proses </a>
+                </li>
+                       <?php } ?>
         </ul>
 </div>
  <?php
@@ -55,6 +63,7 @@ js;
 $this->registerJS($js);
 ?>
 <div class="wp-posts-index">
+
 <div class="row">
     <div class="col-lg-6">
          <form class="FormAjax" method="get" action="">
@@ -88,12 +97,14 @@ $this->registerJS($js);
         </form>
     </div>
 </div>
+   <h3 align="center">Daftar Kegiatan Berdasarkan Unit Kerja </h3>
+ <h3 align="center"><?= HelperUnit::unit($_GET['unit']) ?> </h3>
 <br/>
 <div id="datadinasGridview">
    <?= GridView::widget([
         'dataProvider' => $dataDinas,
         'rowOptions'=>function($model){
-                                             if($model->status_edit == 1){
+                                             if($model['status_edit'] == 1){
 
                                                     return ['class' => 'danger'];
                                              }else{
@@ -141,6 +152,42 @@ $this->registerJS($js);
 
                                     }
                                         ],
+
+                        [
+                            'class' => 'yii\grid\ActionColumn',
+                            'contentOptions' => ['style' => 'width:90px; z-index:20;'],
+                            'header' => 'Actions',
+                            'template' => Mimin::filterTemplateActionColumn(['view','delete'], $this->context->route),
+                            'buttons' => [
+
+                                'view' => function ($url, $model) {
+                                        switch ($model['negara']) {
+                                            case 1:
+                                                return Html::button('<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> ', ['value' =>
+                                                Url::to(['update', 'id' => $model['id_kegiatan']]), 'class' => 'modalButton btn btn-info', 'title' => 'Lanjut Proses']);
+                                                break;
+                                           case 2:
+                                                return Html::button('<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> ', ['value' =>
+                                                Url::to(['update', 'id' => $model['id_kegiatan']]), 'class' => 'modalButton btn btn-danger', 'title' => 'Lanjut Proses']);
+                                                break;
+                                         
+                                        }
+                                           
+                                        
+                                    },
+                                'delete'=> function ($url, $model){
+
+                                    return  Html::a('<img src="' . Url::to(['/images/delete.png']) . '" alt="Hapus" title="Hapus" width="25" height="25"/>', ['/simpel-keg/delete', 'id' => $model->id_kegiatan], [
+                                            
+                                            'data' => [
+                                                'confirm' => 'Are you sure you want to delete this item?',
+                                                'method' => 'post',
+                                            ],
+                                        ]);
+                                }
+
+                                    ],
+                                ],
         ],
     ]); ?>
 </div>
@@ -151,3 +198,39 @@ $this->registerJS($js);
 <?php
 Pjax::end();
 ?>
+<style type="text/css">
+    .danger{
+        background-color: blue;
+    }
+</style>
+<?php
+$js = <<<Modal
+$(function () {
+    $('.modalButton').click(function () {
+        $('#modal').modal('show')
+                .find('#modalContent')
+                .load($(this).attr('value'));
+    });
+
+})
+Modal;
+$this->registerJs($js);
+
+?>
+
+<?php
+Modal::begin([
+    'header' => 'Ubah Perjalanan Dinas',
+    'options' => [
+        'id' => 'modal',
+        'tabindex' => false // important for Select2 to work properly
+    ],
+    'id' => 'modal',
+    'size' => 'bigModal',
+]);
+echo "<div id='modalContent'></div>";
+
+Modal::end();
+
+?> 
+

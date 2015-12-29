@@ -20,7 +20,21 @@ use common\components\MyHelper;
         <tr>
             <td>Nama</td>
             <td>:</td>
-            <td><?= $model->pegawai->nama_cetak ?></td>
+            <td>
+
+              <?php 
+            if ($mode['pegawai_id']>0){ ?>
+                   <?= $mode->pegawai->nama_cetak ?>
+                   <br>NIP. <?= $mode->pegawai_id ?>
+            </b>
+                  <?php  }else{ 
+
+                    echo $mode['nama'];
+                    echo "<br/>";
+                    echo $mode['nip'];
+                }
+                ?>
+            </td>
 
         </tr>
         <tr>

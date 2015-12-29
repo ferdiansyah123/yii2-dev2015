@@ -203,7 +203,20 @@ textarea, input[type=text], input[type=password]
         <tr>
             <td class="kiri atas" align="center" valign="top">2.</td>
             <td class="kiri atas" valign="top">Nama/NIP Pegawai yang melaksanakan Perjalanan Dinas</td>
-            <td class="kiri atas bold kanan" colspan="2"><b class="bold"><?= $mode->pegawai->nama_cetak ?><br>NIP. <?= $mode->pegawai_id ?></b></td>
+            <td class="kiri atas bold kanan" colspan="2"><b class="bold">
+            <?php 
+            if ($mode->pegawai_id>0){ ?>
+                   <?= $mode->pegawai->nama_cetak ?>
+                   <br>NIP. <?= $mode->pegawai_id ?>
+            </b>
+          <?php  }else{ 
+
+            echo $mode['nama'];
+            echo "<br/>";
+            echo $mode['nip'];
+        }
+                ?>
+            </td>
         </tr>
         <tr>
             <td class="kiri atas" align="center" valign="top">3.</td>
@@ -227,11 +240,26 @@ textarea, input[type=text], input[type=password]
                 <table border="0" width="100%" style="font-size:13px;">
                     <tr>
                         <td width="5%">a.</td>
-                        <td><b class="bold"><?= MyHelper::Pangkat($mode->pegawai->gol_id) ?>  (<?= MyHelper::Gole($mode->pegawai->gol_id) ?>)</b></td>
+                        <td><b class="bold">
+                         <?php 
+                    if ($mode->pegawai_id>0){ ?>
+                        <?= MyHelper::Pangkat($mode->pegawai->gol_id) ?>  (<?= MyHelper::Gole($mode->pegawai->gol_id) ?>)</b>
+                         <?php  }else{ 
+                                echo $mode['gol'];
+                            } ?>
+
+                        </td>
                     </tr>
                     <tr>
                         <td valign="top">b.</td>
-                        <td height="60" valign="top"><b class="bold"><?= MyHelper::Unit($mode->pegawai->unit_id) ?> / BAPETEN</b></td>
+                        <td height="60" valign="top"><b class="bold">
+                        <?php if ($mode->pegawai_id>0){ ?>
+                         <?= MyHelper::Unit($mode->pegawai->unit_id) ?> / BAPETEN</b>
+                         <?php  }else{ 
+                                echo $mode->jab.'   /'.$mode->instansi; 
+                            } ?>
+
+                       </td>
                     </tr>
                     <tr>
                         <td style="padding-top:-40px;">c.</td>
@@ -432,7 +460,17 @@ textarea, input[type=text], input[type=password]
             <td width="3%" class="">&nbsp;</td>
             <td width="10%" class="">&nbsp;</td>
             <td width="4%" class="kiri" align="right" valign="top">&nbsp;</td>
-            <td width="14%" class="kanan" colspan="3"><br/><?= MyHelper::Jab($mode->pejab->struk_id) ?></td>
+            <td width="14%" class="kanan" colspan="3"><br/>
+            <?php 
+                if ($mode->pegawai_id>0){ ?>
+                 <?= MyHelper::Jab($mode->pejab->struk_id) ?>
+                    <?php  }else{ 
+                echo $mode->pjab;
+             } ?>
+
+           
+
+            </td>
         </tr>
         <tr>
             <td width="4%" class="kiri">&nbsp;</td>
@@ -448,7 +486,18 @@ textarea, input[type=text], input[type=password]
             <td width="3%" class="">&nbsp;</td>
             <td width="10%" class="">&nbsp;</td>
             <td width="4%" class="kiri" align="right" valign="top">&nbsp;</td>
-            <td width="14%" class="kanan" colspan="3"><b class="bold"><u><br/><br/><br/><br/><?= $mode->pejab->nama_cetak ?></u><br>NIP. <?= $mode->pejabat ?></b></td>
+            <td width="14%" class="kanan" colspan="3"><b class="bold"><u><br/><br/><br/><br/>
+           
+             <?php 
+                if ($mode->pegawai_id>0){ ?>
+                 <?= $mode->pejab->nama_cetak ?></u><br>NIP. <?= $mode->pejabat ?>
+                    <?php  }else{ 
+                echo $mode->pnama;
+                echo "<br/>";
+                echo 'NIP.'.$mode->pnip;
+             } ?>
+
+            </b></td>
         </tr>
         
         <tr>
@@ -459,7 +508,7 @@ textarea, input[type=text], input[type=password]
             <td class="kiri atas" align="right">&nbsp;</td>
             <td class="atas">Berangkat dari</td>
             <td class="atas" width="5%" valign="center" width="5%"><center>:</center></td>
-            <td class="atas kanan" style="padding-left:-22px;"><b class="bold"><?= $model->kotaAsal->nama ?></b></td>
+            <td class="atas kanan" style="margin-left:-40px;"><b class="bold"><?= $model->kotaTujuan->nama ?></b></td>
         </tr>
         <tr>
             <td align="right" class="kiri">&nbsp;</td>
@@ -468,8 +517,8 @@ textarea, input[type=text], input[type=password]
             <td class="" style="padding-left:-22px;"><b class="bold"><?= MyHelper::Formattgl($model->tgl_mulai) ?></b></td>
             <td class="kiri" align="right">&nbsp;</td>
             <td class="">Ke</td>
-            <td class="" width="5%" valign="top" width="5%"><center>:</center></td>
-            <td class="kanan"><b class="bold"></b></td>
+            <td class="" width="5%" valign="top"><center>:</center></td>
+            <td class="kanan"><b class="bold"><?= $model->kotaAsal->nama ?></b></td>
         </tr>
         <tr>
             <td align="right" class="kiri">&nbsp;</td>

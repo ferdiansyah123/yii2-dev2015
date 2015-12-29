@@ -40,7 +40,6 @@ return array(
     'kartik\\alert\\' => array($vendorDir . '/kartik-v/yii2-widget-alert'),
     'kartik\\affix\\' => array($vendorDir . '/kartik-v/yii2-widget-affix'),
     'hscstudio\\mimin\\' => array($vendorDir . '/hscstudio/yii2-mimin'),
-    'hscstudio\\export\\' => array($vendorDir . '/hscstudio/yii2-export'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
 );

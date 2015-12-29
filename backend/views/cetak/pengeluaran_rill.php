@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
 use common\components\MyHelper;
+use common\components\HelperUnit;
 
 ?>
 <style type="text/css">
@@ -65,17 +66,19 @@ foreach ($model2 as $mode) {
     <tr>
         <td colspan="4" height="30">Yang bertandatangan di bawah ini:</td>
     </tr>
+    <?php
+    if ($mode['pegawai_id']>0){ ?>
     <tr>
         <td width="5%">&nbsp;</td>
         <td width="16%">Nama</td>
         <td width="4%">:</td>
-        <td><b class="bold"><?= $mode->pegawai->nama_cetak ?></b></td>
+        <td><b class="bold"><?= HelperUnit::Pegawai($mode['pegawai_id']) ?></b></td>
     </tr>
     <tr>
         <td>&nbsp;</td>
         <td>NIP</td>
         <td>:</td>
-        <td><b class="bold"><?= $mode->pegawai->nip ?></b></td>
+        <td><b class="bold"><?= $mode['pegawai_id'] ?></b></td>
     </tr>
     <tr>
         <td valign="top">&nbsp;</td>
@@ -83,8 +86,9 @@ foreach ($model2 as $mode) {
         <td valign="top">:</td>
         <td valign="top"><b class="bold">
         <?php
-           $jab = MyHelper::Jab($mode->pegawai->struk_id);
-    $unit1= MyHelper::Unit($mode->pegawai->unit_id);
+         
+    $jab = MyHelper::Jab(HelperUnit::Pegawais($mode['pegawai_id'])->struk_id);
+    $unit1= MyHelper::Unit(HelperUnit::Pegawais($mode->pegawai_id)->unit_id);
     $unit2=str_replace(array('Deputi','Sekretariat Utama','Direktorat','Biro','Pusat','Inspektorat','Subdirektorat','Bidang','Bagian','Balai','Subbagian','Seksi','Kelompok'),array('','','','','','','','','','','','',''),$unit1);
     $jabatan1=$jab." ".$unit1;
     $jabatan2=$jab." ".$unit2;
@@ -93,9 +97,35 @@ foreach ($model2 as $mode) {
         ?>
        </b></td>
     </tr>
+    <?php }else{ ?>
+      <tr>
+        <td width="5%">&nbsp;</td>
+        <td width="16%">Nama</td>
+        <td width="4%">:</td>
+        <td><b class="bold"><?= $mode['nama'] ?></b></td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td>NIP</td>
+        <td>:</td>
+        <td><b class="bold"><?= $mode['nip'] ?></b></td>
+    </tr>
+    <tr>
+        <td valign="top">&nbsp;</td>
+        <td valign="top">Jabatan</td>
+        <td valign="top">:</td>
+        <td valign="top"><b class="bold">
+        <?php
+                   
+            echo $mode['jab'];
+
+        ?>
+       </b></td>
+    </tr>
+   <?php } ?>
     <tr>
         <td style=" font-size: 14px;" colspan="4" align="justify" height="60">
-            berdasarkan Surat Perjalanan Dinas (SPD) Nomor: <b class="bold"><?= $model->no_spd ?></b> tanggal <b class="bold"><?= \common\components\MyHelper::Formattgl($mode->tgl_berangkat) ?></b>, 
+            berdasarkan Surat Perjalanan Dinas (SPD) Nomor: <b class="bold"><?= $model['no_spd'] ?></b> tanggal <b class="bold"><?= \common\components\MyHelper::Formattgl($mode['tgl_berangkat']) ?></b>, 
             dengan ini kami menyatakan dengan sesungguhnya bahwa:
         </td>
     </tr>
@@ -128,7 +158,7 @@ foreach ($model2 as $mode) {
     </tbody>
     <tbody>
           <?php 
-                $rincian =  \backend\models\SimpelRincianBiaya::find()->where('personil_id='.$mode->id_personil.' and bukti_kwitansi=2')->all();
+                $rincian =  \backend\models\SimpelRincianBiaya::find()->where('personil_id='.$mode['id_personil'].' and bukti_kwitansi=2')->all();
                 
               $n = 1;
                 foreach ($rincian as $key) { ?>
@@ -138,7 +168,20 @@ foreach ($model2 as $mode) {
                     </td>
                     <td valign="top" width="70%" style="border-top: none; border-bottom: none; border-left: 2px solid black; border-right: none; padding-top: 0in; padding-bottom: 0in; padding-left: 0.04in; padding-right: 0in">
                         <p style="padding-top:-30px;">
-                            <?= $key->label ?>
+                            <?php 
+                            switch ($key->kat_biaya_id) {
+                                case 2:
+                                    echo $key->uraian_rincian;
+                                    break;
+                                case 3:
+                                    echo $key->uraian_rincian;
+                                    break;
+                                
+                                default:
+                                  echo  $key->label;
+                                    break;
+                            }
+                          ?>
                         </p>
                     </td>
                     <td valign="top" width="22%" style="text-align:center;border-top: none; border-bottom: none; border-left: 2px solid black; border-right: 2px solid black; padding: 0in 0.04in">
@@ -167,7 +210,7 @@ foreach ($model2 as $mode) {
             </td>
             <td width="22%" style="text-align:center;border-top: 2px solid black; border-bottom: 2px solid black; border-left: 2px solid black; border-right: 2px solid black; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0.04in">
                 <p>Rp.<?php
-                     $count = Yii::$app->db->createCommand("SELECT sum(jml) FROM simpel_rincian_biaya where bukti_kwitansi=2 and personil_id='".$mode->id_personil."'")->queryScalar();
+                     $count = Yii::$app->db->createCommand("SELECT sum(jml) FROM simpel_rincian_biaya where bukti_kwitansi=2 and personil_id='".$mode['id_personil']."'")->queryScalar();
                 echo number_format($count,0,',','.');
                ?>
                 </p>
@@ -209,11 +252,18 @@ foreach ($model2 as $mode) {
            </center>
         </td>
         <td width="">
-        <p style="padding-top:-400px"> Jakarta, <?= \common\components\MyHelper::Formattgl($mode->tgl_kembali) ?></p> <br> 
+        <p style="padding-top:-400px"> Jakarta, <?= \common\components\MyHelper::Formattgl($mode['tgl_kembali']) ?></p> <br> 
             Pelaksana SPD, <br><br><br><br><br>
              <center>
-            <b class="bold"><u><?= $mode->pegawai->nama_cetak ?></u> <br> 
-            NIP. <?= $mode->pegawai_id ?></b>
+             <?php
+             if($mode['pegawai_id']>0){ ?>
+            <b class="bold"><u> <?= HelperUnit::Pegawais($mode['pegawai_id'])->nama_cetak ?></u> <br> 
+            NIP. <?= $mode['pegawai_id'] ?></b>
+            <?php }else{ 
+                echo ' <b class="bold"><u>'.$mode['nama'].'</u>';
+                echo "<br/>";
+                echo $mode['nip'].'</b>';
+            } ?>
         </center>
         </td>
     </tr>

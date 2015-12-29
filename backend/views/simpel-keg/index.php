@@ -51,6 +51,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         Arsip </a>
                 </li>
                        <?php } ?>
+                 <?php if ((Mimin::filterRoute($this->context->id . '/log'))) { ?>
+                <li >
+                    <a href="<?= Url::to(['simpel-keg/log']) ?>" >
+                        Log Proses </a>
+                </li>
+                       <?php } ?>
+
             </ul>
         </div>
         <?php
@@ -170,8 +177,7 @@ js;
                          ?>
                         <tr>
                             <td width="40"></td>
-                            <td  width="50" bgcolor="gray" style="text-align:center;">
-                                <div >
+                            <td   width="50" bgcolor="gray" style="text-align:center;padding-top:-10px;">
                                     <?php
                                     switch ($sat->unit_id) {
                                         case 110000: ?>
@@ -212,7 +218,6 @@ js;
                                         <?php    break;
                                     } ?>
                                     
-                                </div>
 
                             </td>
                             
@@ -262,87 +267,7 @@ js;
                 </div>
             </div>
 
-            <div class="block block-primary">
-                <div class="block-title block-primary">
-                    <h2>Log Proses</h2>
-                </div>
-                <div class="wp-posts-index">
-                    <?=
-                    GridView::widget([
-                        'dataProvider' => $dataLog,
-                        'id' => 'il',
-                        'columns' => [
-                            [
-                                'header' => 'No',
-                                'class' => 'yii\grid\SerialColumn'],
-                            [
-                                'header' => 'Akun',
-                                'contentOptions' => ['style' => 'rowspan:2;width:143px; z-index:200;'],
-                                'value' => 'user.username',
-                            ],
-                            [
-                                'attribute' => 'Proses',
-                                'format' => 'html',
-                                'value' => function($data) {
-                                    return $data->nama_proses;
-                                }
-                            ],
-                             [
-                                'attribute' => 'Waktu ',
-                                'format' => 'html',
-                                'value' => function($data) {
-                                    return \common\components\MyHelper::indonesian_date($data->waktu);
-                                }
-                            ],
-                        // ['class' => 'yii\grid\ActionColumn'],
-                        ]
-                    ]);
-                    ?>
-
-                    <?php
-                    $this->registerJs('
-                                                        var gridview_id = "#il"; // specific gridview
-                                                        var columns = [2]; // index column that will grouping, start 1 rowspan gridview
-
-                                                        var column_data = [];
-                                                            column_start = [];
-                                                            rowspan = [];
-                                                 
-                                                        for (var i = 0; i < columns.length; i++) {
-                                                            column = columns[i];
-                                                            column_data[column] = "";
-                                                            column_start[column] = null;
-                                                            rowspan[column] = 1;
-                                                        }
-                                                 
-                                                        var row = 1;
-                                                        $(gridview_id+" table > tbody  > tr").each(function() {
-                                                            var col = 1;
-                                                            $(this).find("td").each(function(){
-                                                                for (var i = 0; i < columns.length; i++) {
-                                                                    if(col==columns[i]){
-                                                                        if(column_data[columns[i]] == $(this).html()){
-                                                                            $(this).remove();
-                                                                            rowspan[columns[i]]++;
-                                                                            $(column_start[columns[i]]).attr("rowspan",rowspan[columns[i]]);
-                                                                        }
-                                                                        else{
-                                                                            column_data[columns[i]] = $(this).html();
-                                                                            rowspan[columns[i]] = 1;
-                                                                            column_start[columns[i]] = $(this);
-                                                                        }
-                                                                    }
-                                                                }
-                                                                col++;
-                                                            })
-                                                            row++;
-                                                        });
-                                                    ');
-                    ?>
-
-
-                </div>
-            </div>
+      
         </div>
 
         <?php

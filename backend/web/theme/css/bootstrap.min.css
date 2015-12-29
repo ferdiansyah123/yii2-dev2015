@@ -36,7 +36,8 @@ a {
 }
 
 a:active, a:hover {
-    outline: 0
+    outline: 0;
+     background-color: yellow;
 }
 
 abbr[title] {
@@ -285,9 +286,8 @@ a {
     text-decoration: none
 }
 
-a:hover, a:focus {
-    color: #2a6496;
-    text-decoration: underline
+a:hover {
+    background-color: yellow;
 }
 
 a:focus {
@@ -2855,7 +2855,7 @@ textarea.input-group-sm>.form-control, textarea.input-group-sm>.input-group-addo
 
 .nav-pills>li>a {
     border-radius: 4px;
-    background-color: #022a78;
+    background-color: transparent;
 }
 
 .nav-pills>li+li {
@@ -4851,7 +4851,8 @@ button.close {
 .carousel-inner {
     position: relative;
     overflow: hidden;
-    width: 100%
+    width: 100%;
+    height: 300%;
 }
 
 .carousel-inner>.item {
@@ -4864,7 +4865,7 @@ button.close {
 .carousel-inner>.item>img, .carousel-inner>.item>a>img {
     display: block;
     max-width: 100%;
-    height: auto;
+    height: 100%;
     line-height: 1
 }
 

@@ -67,6 +67,10 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return static::findOne(['unit_id' => $unit_id, 'status' => self::STATUS_ACTIVE]);
     }
+       public static function findByNip($nip)
+    {
+        return static::findOne(['nip' => $nip, 'status' => self::STATUS_ACTIVE]);
+    }
 
     /**
      * @inheritdoc

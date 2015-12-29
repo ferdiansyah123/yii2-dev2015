@@ -96,7 +96,7 @@ use \common\components\MyHelper;
 
 <?php
     $no = 1;
-$hitung = count($model2);
+    $hitung = count($model2);
 foreach ($model2 as $mode) {
 
     $cetak = \backend\models\SimpelKeg::find()->where('id_kegiatan=' . $model->id_kegiatan.' and mak like  \'%'.'524111'.'%\'')->one();
@@ -169,8 +169,14 @@ foreach ($model2 as $mode) {
         <td height="30">2</td>
         <td  colspan="3" height="30" width="240"><u>Nama / Nip Pegawai yang melaksanakan Perjalanan Dinas</u><br/>Name / Employee Register Number of the assigned officer</td>
     <td valign="top" height="30" colspan="3">
+        <?php if($mode->pegawai_id>0){ ?>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $mode->pegawai->nama ?> <br/>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $mode->pegawai_id ?>
+       <?php }else{ ?>
+       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $mode->nama ?> <br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $mode->nip ?>
+   <?php } ?>
+
     </td>
 
     </tr>
@@ -190,10 +196,15 @@ foreach ($model2 as $mode) {
     
     </td>
     <td valign="top" height="30" colspan="3">
+    <?php if($mode->pegawai_id>0){ ?>
     <p style="padding-top:-10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  a. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= MyHelper::Gole($mode->pegawai->gol_id) ?></p><br/>
     <p style="padding-top:-10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  b. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= MyHelper::Jab($mode->pegawai->struk_id) ?> </p><br/>
     <p style="padding-top:-10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  c. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= \common\components\Myhelper::Tingkat($mode->tingkat_id) ?></p><br/>
-
+    <?php }else{ ?>
+    <p style="padding-top:-10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  a. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $mode->gol ?></p><br/>
+    <p style="padding-top:-10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  b. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $mode->jab ?> </p><br/>
+    <p style="padding-top:-10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  c. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-</p><br/>
+   <?php } ?>
     </td>
 
     </tr>
@@ -258,7 +269,8 @@ foreach ($model2 as $mode) {
 
     <td valign="top" colspan="3">
         <p style="padding-top:0px;"> 
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <?php 
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+         <?php 
          $dat = substr($mode->tgl_kembali, 8 ,2)-substr($mode->tgl_berangkat, 8, 2);
          echo $dat+1 .' ( '.Myhelper::Terbilang($dat+1).' ) Hari' ; ?></p><br/>
     <p style="padding-top:0px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  b. &nbsp;&nbsp;&nbsp;&nbsp; <?= MyHelper::Formattgl($mode->tgl_berangkat) ?> </p><br/>
@@ -1111,13 +1123,6 @@ foreach ($model2 as $mode) {
         </td>
     </tr>
 </tbody></table>
-<p style="margin-bottom: 0in; line-height: 100%"><br>
-
-</p>
-
-</body>
-
-<br/>
 <br/>
 <br/>
             </div>
@@ -1128,6 +1133,8 @@ foreach ($model2 as $mode) {
         echo "<pagebreak>";
 
     }
+
+
     $no++;
 }
 

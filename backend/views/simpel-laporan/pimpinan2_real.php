@@ -27,11 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <ul class="nav nav-tabs ">
                 <li class="active">
                     <a href="<?= Url::to(['simpel-laporan/pimd']) ?>" >
-                        Realisasi</a>
+                        Realisasi Unit Kerja</a>
                 </li>
                 <li >
                     <a href="<?= Url::to(['simpel-laporan/pimdmak']) ?>" >
-                        Realisasi Mak</a>
+                        Realisasi AKun</a>
                 </li>
 
             </ul>
@@ -42,9 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="simpel-keg-search">
 
                     <div class="block">
-                        <div class="block-title">
-                            <h2>Pencarian</h2>
-                        </div>
+                       
                         <div class="wp-posts-index">
                             <div class="container-fluid">
                                 <div class="row">
@@ -59,11 +57,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <hr/>
                                 <div class="row"  >
                                     <div class="col-md-4">
-                                        Unit Kerja Mak
+                                        Unit Kerja 
                                     </div>
                                     <div class="col-md-8">
                                         <?php
-                                        $data = ArrayHelper::map(\common\models\DaftarUnit::find()->where('unit_parent_id='.Yii::$app->user->identity->unit_id)->asArray()->all(), 'unit_id', 'nama');
+                                        $data = ArrayHelper::map(\common\models\DaftarUnit::find()->where('unit_parent_id='.Yii::$app->user->identity->unit_id.' and unit_id not in (131300
+                                            )')->asArray()->all(), 'unit_id', 'nama');
                                         ?>
                                         <?php
                                         echo Select2::widget([
@@ -71,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                             'data' => $data,
                                             'options' => [
                                                 'id' => 'ids',
-                                                'placeholder' => 'Pilih Unit Kerja Kerja',
+                                                'placeholder' => 'Pilih Unit Kerja',
                                             ],
                                             'pluginOptions' => [
                                                 'allowClear' => true,
@@ -81,27 +80,42 @@ $this->params['breadcrumbs'][] = $this->title;
                                         ?>
                                     </div>
                                 </div>
-                                <hr/>
+                            <hr/>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        Tahun
+                                        Bulan / Tahun
                                     </div>
                                     <div class="col-md-8">
-                                        <?php
-                                        $thisYear = date('Y', time());
-                                        if ($thisYear = '2015') {
-                                            for ($yearNum = $thisYear; $yearNum >= 2015; $yearNum--) {
-                                                $years[$yearNum] = $yearNum;
-                                            }
-                                        }
-                                        ?>
-                                        <select name="tahun" onchange="this.form.submit()">
-                                            <?php
-                                            foreach ($years as $key) {
-                                                echo '<option value="' . $key . '">' . $key . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <table>
+                                            <tr>
+                                                <td>
+                                                    <?php
+                                                    echo DatePicker::widget([
+                                                        'name' => 'tgl_mulai',
+                                                        'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                                                        'pluginOptions' => [
+                                                            'autoclose' => true,
+                                                            'format' => 'yyyy-mm-dd'
+                                                        ]
+                                                    ]);
+                                                    ?>
+
+                                                </td>
+                                                <td align="center" width="50">s/d</td>
+                                                <td>
+                                                    <?php
+                                                    echo DatePicker::widget([
+                                                        'name' => 'tgl_kembali',
+                                                        'type' => DatePicker::TYPE_COMPONENT_PREPEND,
+                                                        'pluginOptions' => [
+                                                            'autoclose' => true,
+                                                            'format' => 'yyyy-mm-dd'
+                                                        ]
+                                                    ]);
+                                                    ?>
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -109,6 +123,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </form>
+                    <?php if(!empty($_GET)){ ?>
+            <h4 align="center">LAPORAN REALISASI UNIT KERJA</h4>
+            <h4 align="center" style="padding-top:-20px;"> <?= strtoupper(HelperUnit::unit($_GET['unit_id'])) ?> - <?= strtoupper(HelperUnit::unit($_GET['unit'])) ?></h4>
+            <h4 align="center" style="padding-top:-20px;"><?= MyHelper::Formattgl($_GET['tgl_mulai']) ?> s/d  <?= MyHelper::Formattgl($_GET['tgl_kembali']) ?></h4>
+
+            <p align="right">
+            <a href="<?= Yii::$app->urlManagerr->createUrl(['simpel-laporan/export-dua','unit'=>$_GET['unit'],'unit_id'=>$_GET['unit_id'],'tahun'=>date('Y'),'tgl_mulai'=>$_GET['tgl_mulai'],'tgl_kembali'=>$_GET['tgl_kembali']]) ?>" >
+            <img src="<?= Url::to(['/images/printer.png']) ?>" width="60px"/>
+            </a>
+            </p>
+            <div class=" table-responsive">
 
             <table class="table  table-bordered">
                 <thead>
@@ -134,19 +159,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 </thead>
                 <tbody id="tableBody">
                     <?php
-                    $un = isset($_GET['unit']) ? $_GET['unit'] : Yii::$app->user->identity->unit_id;
+                    $un =Yii::$app->user->identity->unit_id;
                     $unit = \common\models\DaftarUnit::find()->where('unit_id in (' . $un . ')')->all();
                     $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
                     ?>
                         <?php
-                            $ese = isset($_GET['unit_id']) ? $_GET['unit_id'] : $un;
+                            $ese = $un;
                             $satker = DaftarUnit::find()->where(' unit_id in (' . $ese . ')')->all();
                         $n = 1;
                         foreach ($satker as $sat) {
-                            $ese = isset($_GET['unit_id']) ? $_GET['unit_id'] : $sat->unit_id;
+                            $ese =  $sat->unit_id;
                             $hsl = Yii::$app->db->createCommand("SELECT 
                                       sum(alokasi_sub_mak) as total
-                                     FROM pagu_mak where  unit_id in(" . $ese . ")")->queryScalar();
+                                     FROM v_pagu where  unit_id in(" . $ese . ")")->queryScalar();
+                            
                             ?>
                             <tr >
                                 <td align="left"><?= $n ?>.</td>
@@ -165,13 +191,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                     } else {
                                         $a = $i;
                                     }
-                                    $unit = isset($_GET['unit_id']) ? $_GET['unit_id'] : $sat->unit_id;
+                                    $unit = $sat->unit_id;
                                     $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
                                     $bln = $tahun . '-' . $a . '-';
                                     $sql = "SELECT sum(b.jml) FROM simpel_keg as a 
                                         LEFT JOIN simpel_rincian_biaya as b on a.id_kegiatan=b.id_kegiatan
                                         LEFT JOIN pegawai.daf_unit as c on a.unit_id=c.unit_id
-                                        where a.status=4 and a.tgl_mulai like '%" . $bln . "%' and c.unit_parent_id='" . $unit . "'";
+                                        where a.status in (2,3,4) and a.tgl_mulai like '%" . $bln . "%' and c.unit_parent_id='" . $unit . "'";
                                     $nilaiReal = Yii::$app->db->createCommand($sql)->queryScalar();
                                     ?>
                                     <td><?php
@@ -194,7 +220,13 @@ $this->params['breadcrumbs'][] = $this->title;
                                     ?>  
                                 </td>
                                 <td align="center"><?php echo number_format($hsl - $re, 0, ",", "."); ?> </td>
-                                <td align="center"><?php echo number_format(($re / $hsl) * 100, 2, ",", "."); ?> %</td>
+                                <td align="center"><?php 
+                                if($pag>0){
+                                 echo number_format(($re / $hsl) * 100, 2, ",", "."); 
+
+                                }
+                                 
+                                 ?> %</td>
                                 <?php
                                 $n++;
                             }
@@ -202,27 +234,31 @@ $this->params['breadcrumbs'][] = $this->title;
                         </tr>
 
                            <?php
-                            $ese = isset($_GET['unit_id']) ? $_GET['unit_id'] : $un;
-                            $satk = DaftarUnit::find()->where(' unit_parent_id in (' . $ese . ')')->all();
+                            $ese = isset($_GET['unit_id']) ? $_GET['unit_id'] : $sat->unit_id;
+                            if(!empty($_GET['unit_id'])){
+                                $satk = DaftarUnit::find()->where(' unit_id in (' . $ese . ')')->all();
+                            }else{
+                                   $satk = DaftarUnit::find()->where(' unit_parent_id in (' . $sat->unit_id . ') and unit_id not in (131300)')->all();
+                            }
                             $n = 1;
                         foreach ($satk as $sa) {
 
                             $ese = isset($_GET['unit_id']) ? $_GET['unit_id'] : $sa->unit_id;
                             $hsl = Yii::$app->db->createCommand("SELECT 
                                       sum(alokasi_sub_mak) as total
-                                     FROM pagu_mak where  unit_id in(" . $ese . ")")->queryScalar();
+                                     FROM v_pagu where  unit_id3 in(" . $ese . ")")->queryScalar();
                             ?>
 
                             <tr >
                                 <td align="right"><?= $n ?>.</td>
                                 <td><?= \common\components\HelperUnit::unit($sa->unit_id) ?></td>
                                 <td align="center"><?php
-                                    $pag = HelperUnit::Pagu($sa->unit_id);
-                                    $pagn = number_format(HelperUnit::Pagu($sa->unit_id), 0, ",", ".");
+                                    $pag = HelperUnit::PaguPim($sa->unit_id);
+                                    $pagn = number_format(HelperUnit::PaguPim($sa->unit_id), 0, ",", ".");
                                     echo $pagn;
                                     ?>   
                                 </td>
-                                <?php
+                                     <?php
                                 for ($i = 1; $i < 13; $i++) {
 
                                     if ($i < 10) {
@@ -230,47 +266,58 @@ $this->params['breadcrumbs'][] = $this->title;
                                     } else {
                                         $a = $i;
                                     }
-                                    $unit = isset($_GET['unit_id']) ? $_GET['unit_id'] : $sa->unit_id;
+                                    $unit = $sat->unit_id;
                                     $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : date('Y');
                                     $bln = $tahun . '-' . $a . '-';
                                     $sql = "SELECT sum(b.jml) FROM simpel_keg as a 
                                         LEFT JOIN simpel_rincian_biaya as b on a.id_kegiatan=b.id_kegiatan
-                                        LEFT JOIN pegawai.daf_unit as c on a.unit_id=c.unit_id
-                                        where a.status=4 and a.tgl_mulai like '%" . $bln . "%' and c.unit_parent_id='" . $unit . "'";
+                                        where a.status in (2,3,4) and a.tgl_mulai like '%" . $bln . "%' and a.unit_id='" . $sa->unit_id . "'";
                                     $nilaiReal = Yii::$app->db->createCommand($sql)->queryScalar();
-                                   // echo $sql;
-                                   // die();
+                                    // echo $unit;
+                                    // die();
                                     ?>
-                                    <td><?php
+                                    <td>
+                                    <?php
                                         if ($nilaiReal > 0) {
                                             echo number_format($nilaiReal, 0, ",", ".");
                                         } else {
                                             echo '<center>-</center>';
                                         }
                                         ?></td>
-
-                                <?php } ?>
+                                    <?php } ?>
                                 <td> 
                                     <?php
-                                    $re = HelperUnit::Real($sat->unit_id);
-                                    $ren = number_format(HelperUnit::Real($sat->unit_id), 0, ",", ".");
+                                    $re = HelperUnit::RealEse($sa->unit_id);
+                                    $ren = number_format(HelperUnit::RealEse($sa->unit_id), 0, ",", ".");
                                     if ($ren > 0) {
                                         echo $ren;
                                     } else {
                                         echo '<center>-</center>';
                                     }
-                                    ?>  
+                                    ?>
                                 </td>
-                                <td align="center"><?php echo number_format($hsl - $re, 0, ",", "."); ?> </td>
-                                <td align="center"> %</td>
-                                <?php
+                                <td align="center"><?php echo number_format($pag-$re, 0, ",", "."); ?> </td>
+                                <td align="center"><?php 
+                                if(empty($pag)){
+                                    echo "0";
+                                }else{
+
+                              echo number_format(($re/$pag)*100, 2, ",", ".");
+                                }
+                                    ?>
+                            
+                            <?php    
                                 $n++;
                             }
                             ?>
+                             %</td>
                         </tr>
                      
                 </tbody>
             </table>
+        </div>
+           <?php } ?>
+
         </div>
     </div>
 </div>

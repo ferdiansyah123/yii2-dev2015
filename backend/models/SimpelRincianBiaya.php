@@ -32,8 +32,7 @@ class SimpelRincianBiaya extends \yii\db\ActiveRecord
      * @inheritdoc
      */
     public $jm;
-    public $pagu;
-    public $persen;
+  
     public $satuan;
    // public $bukti_kwitansi;
     public function rules()

@@ -43,36 +43,20 @@ class MakTahunController extends Controller {
         ]);
     }
 
-    public function actionPo($id, $unit) {
+    public function actionPo($id, $unit,$kode,$akun) {
+
         $model = $this->findDetail($id);
         $model2 = $this->findUnit($unit);
         
-        // $sql = "SELECT COUNT(DISTINCT(a.detail_id)), a.detail_id, a.nama_detail, a.renc_tgl_selesai, a.renc_tgl_mulai, 
-        //        a.jenis_detail_id, b.sub_mak_id, c.*, d.suboutput_id, d.unit_id, e.unit_id, e.unit_parent_id 
-        //        FROM serasi2015_sql.news_detail_keg as a
-        //    	    INNER JOIN serasi2015_sql.news_detail_keg_mak as b ON a.detail_id=b.detail_id
-        //    	    LEFT JOIN serasi2015_sql.news_sub_mak_tahun as c ON b.sub_mak_id=c.sub_mak_id
-        //    	    LEFT JOIN serasi2015_sql.news_nas_suboutput as d ON c.suboutput_id=d.suboutput_id
-        //    	    LEFT JOIN pegawai.daf_unit as e ON d.unit_id=e.unit_parent_id
-        //    	    LEFT JOIN fix_simpel.simpel_keg g on g.detail_id = a.detail_id
-        //        where a.jenis_detail_id in (3,4,5) and (c.kode_mak= 524114 or c.kode_mak= 524113 or c.kode_mak= 524111 or c.kode_mak= 524119 ) 
-        //        and e.unit_id='".$unit."' and a.detail_id='".$id."'  
-        //        and g.detail_id IS NULL
-        //         group by a.detail_id order by a.renc_tgl_mulai desc  ";
-        $sql = "SELECT  a.detail_id, a.jenis_detail_id, a.nama_detail, a.renc_tgl_selesai, a.renc_tgl_mulai, b.*,d.unit_id FROM serasi2015_sql.news_detail_keg as a 
-         LEFT JOIN serasi2015_sql.news_sub_mak_tahun as b on a.suboutput_id=b.suboutput_id 
-         LEFT JOIN serasi2015_sql.news_nas_suboutput as c on a.suboutput_id=c.suboutput_id
-         LEFT JOIN fix_simpel.simpel_keg g on g.detail_id = a.detail_id
-         LEFT JOIN pegawai.daf_unit as d on c.unit_id=d.unit_parent_id
-        where a.jenis_detail_id in (3,4,5) and (b.kode_mak= 524114 or b.kode_mak= 524113 or b.kode_mak= 524111 or b.kode_mak= 524119 ) and g.detail_id IS NULL and d.unit_id='" . $unit . "' and a.detail_id='" . $id . "' group by a.detail_id order by a.renc_tgl_mulai desc";
-
-        //echo $sql;
+        $sql = "SELECT  a.detail_id, a.jenis_detail_id, a.nama_detail, a.renc_tgl_selesai,
+         a.renc_tgl_mulai, b.*, d.unit_id FROM serasi2015_sql.news_detail_keg as a 
+         INNER JOIN serasi2015_sql.news_sub_mak_tahun as b on a.suboutput_id=b.suboutput_id 
+         INNER JOIN serasi2015_sql.news_nas_suboutput as c on a.suboutput_id=c.suboutput_id
+         INNER JOIN pegawai.daf_unit as d on c.unit_id=d.unit_parent_id
+        where b. kode_mak in (524111,524113,524114,524119) and a.detail_id='" . $id . "' group by a.detail_id ";
         $command = Yii::$app->db->createCommand($sql);
         $connection = \Yii::$app->db;
         $result = $command->queryOne();
-
-        $connection = \Yii::$app->db;
-
         //untuk melihat random terakhir
         $data_random = $connection->createCommand('SELECT MAX(random) FROM simpel_keg');
         $random = $data_random->queryScalar();
@@ -84,7 +68,7 @@ class MakTahunController extends Controller {
             Yii::$app->db->createCommand()->insert('simpel_keg', ['random' => $dat,
                 'status' => 1,
                 'no_reg' => $_POST['MasterSerasi']['no_reg'],
-                'kode_mak' => $_POST['MasterSerasi']['kode_mak'],
+                'kode_mak' => $akun,
                 'nip_ppk' => $_POST['MasterSerasi']['nip_ppk'],
                 'nip_bpp' => $_POST['MasterSerasi']['nip_bpp'],
                 'unit_id' => $_POST['MasterSerasi']['unit_id'],
@@ -113,24 +97,17 @@ class MakTahunController extends Controller {
         }
     }
 
-    public function actionDn($id, $unit) {
+    public function actionDn($id, $unit,$kode,$akun) {
 
         $model = $this->findDetail($id);
         $model2 = $this->findUnit($unit);
-        // print_r($_POST);
-        // die();
-        $sql = "SELECT COUNT(DISTINCT(a.detail_id)), a.detail_id, a.nama_detail, a.renc_tgl_selesai, a.renc_tgl_mulai, 
-        a.jenis_detail_id, b.sub_mak_id, c.*, d.suboutput_id, d.unit_id, e.unit_id, e.unit_parent_id 
-        FROM serasi2015_sql.news_detail_keg as a
-    	    INNER JOIN serasi2015_sql.news_detail_keg_mak as b ON a.detail_id=b.detail_id
-    	    LEFT JOIN serasi2015_sql.news_sub_mak_tahun as c ON b.sub_mak_id=c.sub_mak_id
-    	    LEFT JOIN serasi2015_sql.news_nas_suboutput as d ON c.suboutput_id=d.suboutput_id
-    	    LEFT JOIN pegawai.daf_unit as e ON d.unit_id=e.unit_parent_id
-    	    LEFT JOIN fix_simpel.simpel_keg g on g.detail_id = a.detail_id
-        where a.jenis_detail_id in (3,4,5) and (c.kode_mak= 524114 or c.kode_mak= 524113 or c.kode_mak= 524111 or c.kode_mak= 524119 ) 
-        and e.unit_id='" . $unit . "' and a.detail_id='" . $id . "'  
-        and g.detail_id IS NULL
-         group by a.detail_id order by a.renc_tgl_mulai desc  ";
+        
+        $sql = "SELECT  a.detail_id, a.jenis_detail_id, a.nama_detail, a.renc_tgl_selesai,
+         a.renc_tgl_mulai, b.*, d.unit_id FROM serasi2015_sql.news_detail_keg as a 
+         INNER JOIN serasi2015_sql.news_sub_mak_tahun as b on a.suboutput_id=b.suboutput_id 
+         INNER JOIN serasi2015_sql.news_nas_suboutput as c on a.suboutput_id=c.suboutput_id
+         INNER JOIN pegawai.daf_unit as d on c.unit_id=d.unit_parent_id
+        where a.detail_id='" . $id . "' group by a.detail_id ";
         $command = Yii::$app->db->createCommand($sql);
         $connection = \Yii::$app->db;
         $result = $command->queryOne();
@@ -145,7 +122,7 @@ class MakTahunController extends Controller {
             Yii::$app->db->createCommand()->insert('simpel_keg', ['random' => $dat,
                 'status' => '1',
                 'no_reg' => $_POST['MasterSerasi']['no_reg'],
-                'kode_mak' => $_POST['MasterSerasi']['kode_mak'],
+                'kode_mak' => $akun,
                 'nip_ppk' => $_POST['MasterSerasi']['nip_ppk'],
                 'nip_bpp' => $_POST['MasterSerasi']['nip_bpp'],
                 'unit_id' => $_POST['MasterSerasi']['unit_id'],
@@ -170,6 +147,7 @@ class MakTahunController extends Controller {
                         'model' => $model,
                         'result' => $result,
                         'dat' => $dat,
+                        'kode'=>$kode,
             ]);
         }
     }

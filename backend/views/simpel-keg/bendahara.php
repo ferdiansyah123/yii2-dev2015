@@ -6,6 +6,7 @@ use yii\helpers\Url;
 use yii\widgets\Pjax;
 use common\components\MyHelper;
 use yii\bootstrap\Modal;
+use common\components\HelperUnit;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SimpelKegSearch */
@@ -40,6 +41,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <a href="<?= Url::to(['simpel-keg/varsip']) ?>" >
                         Arsip </a>
                 </li>
+                <li >
+                    <a href="<?= Url::to(['simpel-keg/log']) ?>" >
+                        Log Proses </a>
+                </li>
             </ul>
         </div>
         <?php
@@ -56,6 +61,7 @@ js;
         $this->registerJS($js);
         ?>
         <div class="wp-posts-index">
+    
             <div class="row">
                 <div class="col-lg-6">
 
@@ -72,6 +78,9 @@ js;
                     </form>
                 </div>
             </div>
+              <h3 align="center">Daftar Kegiatan Berdasarkan Unit Kerja </h3>
+ <h3 align="center"><?= HelperUnit::unit($_GET['unit']) ?> </h3>
+<br/>
             <br/>
             <div id="datadinasGridview">
                 <?=

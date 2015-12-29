@@ -70,7 +70,14 @@ use common\components\MyHelper;
         </td>
         <td align="left" width="167" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">
             <p><br/>
-            <?= $mode->pegawai->nama_cetak ?>
+                 <?php 
+                if ($mode->pegawai_id>0){ ?>
+                <?= $mode->pegawai->nama_cetak ?>
+                    <?php  }else{ 
+                echo $mode->nama;
+             } ?>
+
+           
             </p>
         </td>
         <td width="104" style="border-top: none; border-bottom: 1px solid #000000; border-left: 1px solid #000000; border-right: none; padding-top: 0in; padding-bottom: 0.04in; padding-left: 0.04in; padding-right: 0in">

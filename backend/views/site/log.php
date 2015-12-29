@@ -11,51 +11,45 @@ use yii\helpers\Url;
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span></button><a class="navbar-brand" href="<?php Yii::$app->urlManager->createUrl(['site/login']) ?>">
-        <br/><img class="round pull-left" style="margin-top:-20px;width:130px;" src="<?= Url::to(['/images/login_logo.png'])?>" alt=""></a></div><div id="w0-collapse" class="collapse navbar-collapse"><ul id="w1" class="navbar-nav navbar-right nav"><li class="active">
-    <a href="<?php Yii::$app->urlManager->createUrl(['site/login']) ?>">Beranda</a></li>
-    <li><a href="<?php Yii::$app->urlManager->createUrl(['site/kontak']) ?>">Kontak kami</a></li>
-</ul></nav>
+        <br/><img class="round pull-left" style="margin-top:-29px;width:130px;" src="<?= Url::to(['/images/login_logo.png'])?>" alt=""></a></div><div id="w0-collapse" class="collapse navbar-collapse">
+      </nav>
 
 <div class="container-fluid">
 
 	<div class="row">
-		<div class="col-md-1">
-		</div>
-		<div class="col-md-7">
+	
+		<div  id="myCarousel" class="col-md-7 carousel slide" data-ride="carousel">
+      <?php
+  for ($i=0; $i < 7; $i++) { 
+    echo "<br/>";
+  }
 
-	<?php
-	for ($i=0; $i < 9; $i++) { 
-		echo "<br/>";
-	}
-
-	?>
-		<div  id="myCarousel" class="carousel slide" data-ride="carousel">
-    
+  ?>
       <!-- Wrapper for slides -->
-      <div class="carousel-inner">
+      <div style="margin-left:78px;" class="carousel-inner">
       
         <div class="item active">
-          <img src="<?= Url::to(['/images/bus.jpg']) ?>" width="100%">
+          <img src="<?= Url::to(['/images/bus.jpg']) ?>" class="im" >
            <div class="carousel-caption">
           </div>
         </div><!-- End Item -->
  
-         <div class="item">
-          <img src="<?= Url::to(['/images/train.jpg']) ?>" width="100%">
+         <div class="item" hei>
+          <img src="<?= Url::to(['/images/train.jpg']) ?>" class="im">
 
            <div class="carousel-caption">
           </div>
         </div><!-- End Item -->
         
         <div class="item">
-          <img src="<?= Url::to(['/images/kapal.jpg']) ?>" width="100%">
+          <img src="<?= Url::to(['/images/kapal.jpg']) ?>" class="im" >
 
            <div class="carousel-caption">
           </div>
         </div><!-- End Item -->
         
         <div class="item">
-          <img src="<?= Url::to(['/images/pesawat.jpg']) ?>" width="100%">
+          <img src="<?= Url::to(['/images/pesawat.jpg']) ?>" class="im" >
 
            <div class="carousel-caption">
           </div>
@@ -67,31 +61,42 @@ use yii\helpers\Url;
     	
 
     </div><!-- End Carousel -->
-		</div>
 		<div class="col-md-3">
-				<div class="lg-container">
-		<center><img src="<?= Url::to(['/images/login.png'])?>" height="100"/></center>
+				<div style="margin-left:60px;" class="lg-container">
+
+		<img src="<?= Url::to(['/images/loginn.png'])?>" height="90"/>
 		<?php $form = ActiveForm::begin(['id' => 'login-form','options' => ['class' => 'form-horizontal form-bordered form-control-borderless'],]); ?>
+			<table width="95%">
+        <tr>
+          <td  align="center">
+            <label ><font color="white">Username</font></label>
+            
+          </td>
+          <td>
+
+           <?= $form->field($model, 'username')->textInput(['maxlength' => true,'placeholder'=>"Username"])->label(false) ?>
+          </td>
+        </tr>   
+          <tr>
+          <td align="center">
+            <label><font color="white">Password</font></label>
+          </td>
+          <td>
+        <?= $form->field($model, 'password')->passwordInput(['maxlength' => true,'placeholder'=>"Password"])->label(false) ?>
+          </td>
+        </tr>  
+        <tr>
+          <td align="center" colspan="2">
+              <?= Html::submitButton('&nbsp;&nbsp;&nbsp;Login &nbsp;&nbsp;', ['class' => 'btn btn-block but', 'name' => 'login-button']) ?>
+          </td>
+        </tr> 
+      </table>
+    
 			
-			<div>
-				<?= $form->field($model, 'username')->textInput(['maxlength' => true,'placeholder'=>"Username"])->label(false) ?>
-			</div>
+
 			
-			<div>
-				<?= $form->field($model, 'password')->passwordInput(['maxlength' => true,'placeholder'=>"Password"])->label(false) ?>
-				
-			</div>
-			
-			<div class="form-group">
-				<div class="pull-left" width="300">
-                    <?= Html::submitButton('&nbsp;&nbsp;&nbsp;Login &nbsp;&nbsp;', ['class' => 'btn btn-block btn-primary ', 'name' => 'login-button']) ?>
-					
-				</div>
-				<div class="pull-right">
-      				 <?= Html::a(Yii::t('app', '&nbsp;&nbsp;&nbsp;Lupa Password &nbsp;&nbsp;'), ['reset'], ['class' => 'btn btn-block btn-primary']) ?>
-					
-				</div>
-                </div>
+      
+
 			
 		<?php ActiveForm::end(); ?>
 		
@@ -105,12 +110,17 @@ use yii\helpers\Url;
 <h4 align="center"><font color="black">Copyright <?php echo date('Y') ?> Subbag Perjalanan Dinas Biro Umum BAPETEN</font></h4>
         <br/>
         <br/>
-</body>
-</html>
+
 <script type="text/javascript">
 
 </script>
 <style type="text/css">
+.form-bordered .form-group {
+    margin: 0;
+    border: 0;
+    padding: 15px;
+    border-bottom: 0px dashed #eaedf1;
+  }
 .btn-primary {
     background-color: #5c2040;
     border-color: #1bbae1;
@@ -134,10 +144,10 @@ width:400px;
 margin:100px auto;
 padding:20px 20px;
 border:1px solid #f4f4f4;
-background-color: white;
+background-color: #47B2BA;
 -webkit-border-radius:10px;
 -moz-border-radius:10px;
-border-radius:10px;
+border-radius:30px;
 
 -webkit-box-shadow: 0 0 2px #aaa;
 -moz-box-shadow: 0 0 2px #aaa;
@@ -151,18 +161,54 @@ background-color: green;
 #lg-form > div {
 margin:10px 5px;
 padding:5px 0;
+-webkit-border-radius:10px;
+-moz-border-radius:10px;
+border-radius:300px;
+
 }
 #lg-form label{
 display: none;
 font-size: 20px;
-line-height: 25px;
+-webkit-border-radius:10px;
+-moz-border-radius:10px;
+border-radius:300px;
+}
+.form-control{
+  -webkit-border-radius:10px;
+-moz-border-radius:10px;
+border-radius:300px;
+}
+.lg-container2{
+width:800px;
+margin:100px auto;
+padding:20px 20px;
+border:1px solid #f4f4f4;
+background-color: #47B2BA;
+-webkit-border-radius:10px;
+-moz-border-radius:10px;
+border-radius:30px;
+
+-webkit-box-shadow: 0 0 2px #aaa;
+-moz-box-shadow: 0 0 2px #aaa;
+box-shadow: 0 0 2px #aaa;
+}
+.lg-container2 h1{
+font-size:40px;
+text-align:center;
+background-color: green;
+}
+#lg-form > div {
+margin:10px 5px;
+padding:5px 0;
+}
+#lg-form label{
+display: none;
+font-size: 20px;
+
 }
 #lg-form input[type="text"],
 #lg-form input[type="password"]{
-border:1px solid rgba(51,51,51,.5);
--webkit-border-radius:10px;
--moz-border-radius:10px;
-border-radius:10px;
+
 padding: 5px;
 font-size: 16px;
 line-height: 20px;
@@ -200,6 +246,12 @@ background:#f4f4f4;
 .success {
 color: green;
 }
+.im{
+  -webkit-border-radius:10px;
+-moz-border-radius:10px;
+border-radius:30px;
+border-color: blue;
+}
 .error {
 color: red;
 }
@@ -215,6 +267,18 @@ border-color: #47B2BA;
 border-width : 4px 0 2px 0;
 
 }
+.but{
+  color: white;
+  background-color: #022a78;
+  font-style: white;
+  -webkit-border-radius:10px;
+-moz-border-radius:10px;
+border-radius:30px;
+  width: 99px;
+-webkit-box-shadow: 0 0 2px #aaa;
+-moz-box-shadow: 0 0 2px #aaa;
+box-shadow: 0 0 2px #aaa;
+}
 .navbar a{
 color: #fff;
 }
@@ -228,6 +292,23 @@ background: #000;
 body { padding-top: 20px; }
 #myCarousel .nav a small {
     display:block;
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.75);
+border-color: #47B2BA;
+border-width : 4px 0 2px 0;
+
+}
+.cl{
+  background-color: white;
+   -webkit-border-radius:10px;
+-moz-border-radius:10px;
+border-radius:30px;
+height: 300px;
+
+}
+.carousel{
+  border: 10px;
 }
 #myCarousel .nav {
 background:#eee;
